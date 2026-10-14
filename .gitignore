@@ -1,0 +1,25 @@
+# Local tooling and dependencies
+node_modules/
+.playwright-cli/
+playwright-report/
+test-results/
+.vscode/
+.idea/
+__pycache__/
+*.log
+
+# Credentials and machine-specific files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Private journal exports and temporary recovery files
+edge-journal*.json
+edge-journal*.csv
+journal-*.json
+*-backup.json
+backups/
+private/
