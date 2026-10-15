@@ -1,0 +1,8 @@
+{
+  "reviewed": "2026-10-15",
+  "expires": "2027-01-13",
+  "advisory": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+  "packages": ["braces", "micromatch", "vite-plugin-singlefile"],
+  "runtimeReachable": false,
+  "reason": "braces <=3.0.3 has a nested-pattern stack-exhaustion advisory and no patched registry version at review. It is a development-only transitive dependency of vite-plugin-singlefile. The inspected plugin guards both micromatch calls with inlinePattern.length. This build explicitly sets inlinePattern: [], so matching/brace parsing is not invoked. The portable runtime and production dependency inventory exclude these packages. Re-review if versions, plugin guards, patterns or the dependency chain change; expiry forces a fresh review."
+}

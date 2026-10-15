@@ -1,0 +1,2905 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-demo-default="true">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="data:," />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="ژورنال معاملاتی آفلاین برای مدیریت ریسک و تحلیل عملکرد معامله‌گر."
+    />
+    <meta name="theme-color" content="#0B1110" />
+    <title>ژورنال اِج — مدیریت ریسک و تحلیل معاملات</title>
+
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
+    <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+    <aside id="app-sidebar" class="app-sidebar" aria-label="ناوبری اصلی">
+      <a class="brand" href="#dashboard" aria-label="صفحهٔ اصلی ژورنال اِج">
+        <span class="brand-mark" aria-hidden="true">E/J</span>
+        <span>ژورنال اِج</span> </a
+      ><a class="button primary sidebar-new" href="#trade-new"
+        ><span
+          class="heroicon-host"
+          data-heroicon="plus"
+          aria-hidden="true"
+        ></span>
+        معاملهٔ جدید</a
+      >
+      <nav class="sidebar-nav" aria-label="صفحه‌های ژورنال">
+        <a href="#dashboard" data-page-link="dashboard"
+          ><span
+            class="heroicon-host"
+            data-heroicon="home"
+            aria-hidden="true"
+          ></span
+          >نمای کلی</a
+        ><a href="#trades" data-page-link="trades"
+          ><span
+            class="heroicon-host"
+            data-heroicon="document"
+            aria-hidden="true"
+          ></span
+          >معاملات</a
+        ><a href="#analytics" data-page-link="analytics"
+          ><span
+            class="heroicon-host"
+            data-heroicon="analysis"
+            aria-hidden="true"
+          ></span
+          >تحلیل عملکرد</a
+        ><a href="#charts" data-page-link="charts"
+          ><span data-heroicon="chart-bar" aria-hidden="true"></span>نمودارها</a
+        >
+        <a href="#scenarios" data-page-link="scenarios"
+          ><span
+            class="heroicon-host"
+            data-heroicon="calculator"
+            aria-hidden="true"
+          ></span
+          >شبیه‌ساز R/R</a
+        >
+        <hr />
+        <a href="#accounts" data-page-link="accounts"
+          ><span
+            class="heroicon-host"
+            data-heroicon="wallet"
+            aria-hidden="true"
+          ></span
+          >حساب‌ها</a
+        ><a href="#settings" data-page-link="settings"
+          ><span
+            class="heroicon-host"
+            data-heroicon="settings"
+            aria-hidden="true"
+          ></span
+          >تنظیمات</a
+        >
+      </nav>
+      <div class="sidebar-footer">
+        <span class="status-dot" aria-hidden="true"></span
+        ><span>محلی و آفلاین</span>
+      </div>
+    </aside>
+    <header class="app-topbar">
+      <div class="app-topbar-inner">
+        <button
+          id="sidebar-toggle"
+          class="button ghost"
+          type="button"
+          aria-controls="app-sidebar"
+          aria-expanded="false"
+        >
+          <span
+            class="heroicon-host"
+            data-heroicon="menu"
+            aria-hidden="true"
+          ></span>
+          <span>فهرست</span></button
+        ><span id="shell-page-title">نمای کلی</span>
+        <div class="shell-account-scope" id="shell-account-scope">
+          <label for="account-scope">حساب گزارش</label
+          ><select
+            id="account-scope"
+            data-native-select
+            aria-describedby="account-scope-context"
+          >
+            <option value="">همهٔ حساب‌ها</option>
+          </select>
+        </div>
+        <div
+          class="trade-account-field field shell-position-account"
+          id="shell-position-account"
+          hidden
+        >
+          <label for="trade-account">حساب این پوزیشن</label
+          ><select
+            id="trade-account"
+            name="accountId"
+            form="trade-form"
+            data-native-select
+            aria-describedby="trade-account-help"
+            required
+          ></select
+          ><small class="sr-only" id="trade-account-help"
+            >این پوزیشن در حساب انتخاب‌شده ذخیره می‌شود.</small
+          >
+        </div>
+        <span id="shell-environment" class="environment-badge">ژورنال اصلی</span
+        ><a
+          class="button primary mobile-new"
+          href="#trade-new"
+          aria-label="معاملهٔ جدید"
+          ><span
+            class="heroicon-host"
+            data-heroicon="plus"
+            aria-hidden="true"
+          ></span
+        ></a>
+      </div>
+    </header>
+    <main id="main" class="app-main">
+      <div id="account-workspace" hidden>
+        <span id="account-scope-heading"></span
+        ><span id="account-scope-context"></span>
+      </div>
+      <section class="app-page" id="dashboard" data-app-page="dashboard" hidden>
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">نمای کلی</h1>
+            <p>خلاصهٔ عملکرد و آخرین فعالیت ژورنال</p>
+          </div>
+        </header>
+        <div id="dashboard-filter-slot">
+          <section id="report-filter-shell" class="report-filter-shell">
+            <div class="filter-context-bar">
+              <span id="report-population"></span
+              ><button
+                class="button ghost"
+                id="toggle-report-filters"
+                type="button"
+                aria-controls="report-filter-content"
+                aria-expanded="false"
+              >
+                فیلترها</button
+              ><button
+                class="button ghost"
+                id="clear-report-filters"
+                type="button"
+              >
+                حذف فیلترها
+              </button>
+            </div>
+            <div
+              id="filter-chips"
+              class="filter-chips"
+              role="group"
+              aria-label="فیلترهای فعال"
+            ></div>
+            <div id="report-filter-content">
+              <div
+                id="shared-trade-filters"
+                class="shared-trade-filters"
+                role="region"
+                aria-label="فیلترهای مشترک معاملات و تحلیل"
+              >
+                <div class="filter-panel-head" hidden>
+                  <p>
+                    این فیلترها در دفتر معاملات و تحلیل عملکرد مشترک‌اند؛ ماتریس
+                    سناریوها مستقل است.
+                  </p>
+                  <button
+                    class="button ghost small"
+                    id="clear-filters-head"
+                    type="button"
+                  >
+                    حذف فیلترها
+                  </button>
+                </div>
+                <div class="toolbar report-toolbar" aria-label="فیلتر معاملات">
+                  <div class="field search-field">
+                    <label for="filter-symbol">جست‌وجوی نماد یا ستاپ</label
+                    ><input
+                      class="ltr"
+                      id="filter-symbol"
+                      name="filterSymbol"
+                      type="search"
+                      placeholder="مثلاً BTC، AAPL یا ETH"
+                      autocomplete="off"
+                    />
+                  </div>
+
+                  <div class="field">
+                    <label for="filter-status">وضعیت / نتیجه</label
+                    ><select id="filter-status" name="filterStatus">
+                      <option value="all">همهٔ معاملات</option>
+                      <option value="planned">برنامه‌ریزی‌شده</option>
+                      <option value="open">باز</option>
+                      <option value="closed">همهٔ بسته‌شده‌ها</option>
+                      <option value="win">برد</option>
+                      <option value="loss">باخت</option>
+                      <option value="breakeven">سربه‌سر</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="filter-from">از تاریخ ورود (شمسی)</label
+                    ><input
+                      class="numeric"
+                      id="filter-from"
+                      name="filterFrom"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="10"
+                      placeholder="۱۴۰۵/۰۵/۱۲"
+                      autocomplete="off"
+                      data-persian-date
+                    />
+                  </div>
+                  <button
+                    class="button ghost"
+                    id="toggle-to-date"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="to-date-wrap"
+                  >
+                    + تاریخ پایان
+                  </button>
+                  <div class="field is-hidden" id="to-date-wrap">
+                    <label for="filter-to">تا تاریخ ورود (شمسی)</label
+                    ><input
+                      class="numeric"
+                      id="filter-to"
+                      name="filterTo"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="10"
+                      placeholder="۱۴۰۵/۰۵/۱۲"
+                      autocomplete="off"
+                      data-persian-date
+                    />
+                  </div>
+                </div>
+
+                <details
+                  id="advanced-trade-filters"
+                  class="factor-details advanced-filters"
+                >
+                  <summary>فیلترهای پیشرفته</summary>
+                  <div class="factor-fields advanced-basic-fields">
+                    <div class="field">
+                      <label for="filter-direction">جهت</label
+                      ><select id="filter-direction" name="filterDirection">
+                        <option value="all">همهٔ جهت‌ها</option>
+                        <option value="long">لانگ</option>
+                        <option value="short">شورت</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="filter-session">سشن</label
+                      ><select id="filter-session">
+                        <option value="all">همهٔ سشن‌ها</option>
+                        <option value="asia">آسیا</option>
+                        <option value="london">لندن</option>
+                        <option value="newyork">نیویورک</option>
+                        <option value="overlap">هم‌پوشانی</option>
+                        <option value="offhours">خارج از سشن</option>
+                        <option value="other">سایر</option>
+                        <option value="unknown">ثبت نشده</option>
+                      </select>
+                    </div>
+                  </div>
+                  <details
+                    class="factor-details"
+                    id="confirmation-filter-details"
+                  >
+                    <summary>فیلتر تأییدیه‌ها · حجم، روند و سایر عوامل</summary>
+                    <p class="factor-help">
+                      <span
+                        class="heroicon-host"
+                        data-heroicon="info"
+                        aria-hidden="true"
+                      ></span
+                      >یک یا چند تأییدیه انتخاب کن؛ مثلاً «حجم» و «هم‌جهتی روند
+                      تایم بالاتر». بدون انتخاب، فیلتر تأییدیه اعمال نمی‌شود.
+                      «بدون انتخابی‌ها» یعنی این برچسب‌ها در معامله ثبت
+                      نشده‌اند.
+                    </p>
+                    <div class="factor-controls">
+                      <div class="field">
+                        <label for="filter-confirmation-mode"
+                          >روش ترکیب تأییدیه‌ها</label
+                        ><select id="filter-confirmation-mode">
+                          <option value="all">همهٔ انتخابی‌ها (AND)</option>
+                          <option value="any">حداقل یکی (OR)</option>
+                          <option value="none">بدون انتخابی‌ها (NOT)</option>
+                          <option value="empty">
+                            فقط معاملات بدون هیچ تأییدیه
+                          </option>
+                        </select>
+                      </div>
+                      <button
+                        class="button ghost small"
+                        id="clear-confirmation-filters"
+                        type="button"
+                      >
+                        پاک‌کردن تأییدیه‌ها
+                      </button>
+                    </div>
+                    <div
+                      class="factor-confirmations"
+                      id="filter-confirmation-options"
+                      role="group"
+                      aria-label="انتخاب تأییدیه‌های فیلتر"
+                    ></div>
+                  </details>
+                  <details class="factor-details" id="other-factor-details">
+                    <summary>
+                      فیلتر سایر فاکتورها · ستاپ، ذهنیت، پلن، زمان و بازار
+                    </summary>
+                    <p class="factor-help">
+                      <span
+                        class="heroicon-host"
+                        data-heroicon="info"
+                        aria-hidden="true"
+                      ></span
+                      >فیلترهای مختلف هم‌زمان اعمال می‌شوند؛ فقط معاملاتی
+                      می‌مانند که همهٔ شرط‌ها را دارند.
+                    </p>
+                    <div class="factor-fields">
+                      <div class="field">
+                        <label for="factor-marketType">بازار</label
+                        ><select
+                          id="factor-marketType"
+                          data-factor="marketType"
+                        >
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-strategy">استراتژی / ستاپ</label
+                        ><select id="factor-strategy" data-factor="strategy">
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-timeframe">تایم‌فریم</label
+                        ><select id="factor-timeframe" data-factor="timeframe">
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-emotion">حالت ذهنی</label
+                        ><select id="factor-emotion" data-factor="emotion">
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-planFollowed">پایبندی به پلن</label
+                        ><select
+                          id="factor-planFollowed"
+                          data-factor="planFollowed"
+                        >
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-mistakeType">اشتباه اصلی</label
+                        ><select
+                          id="factor-mistakeType"
+                          data-factor="mistakeType"
+                        >
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-setupQuality">کیفیت ستاپ</label
+                        ><select
+                          id="factor-setupQuality"
+                          data-factor="setupQuality"
+                        >
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-confidence">اعتماد به ستاپ</label
+                        ><select
+                          id="factor-confidence"
+                          data-factor="confidence"
+                        >
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-maxTouchedR">بیشترین R لمس‌شده</label
+                        ><select
+                          id="factor-maxTouchedR"
+                          data-factor="maxTouchedR"
+                          aria-describedby="factor-maxTouchedR-help"
+                        >
+                          <option value="">همه</option></select
+                        ><small id="factor-maxTouchedR-help" class="factor-help"
+                          >اوج سود باز ÷ ریسک اولیه؛ بازه‌ها هم‌پوشانی
+                          ندارند.</small
+                        >
+                      </div>
+                      <div class="field">
+                        <label for="factor-weekday">روز هفته</label
+                        ><select id="factor-weekday" data-factor="weekday">
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-weekpart">روزکاری / آخرهفته</label
+                        ><select id="factor-weekpart" data-factor="weekpart">
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="factor-timebucket">بازهٔ ساعت ورود</label
+                        ><select
+                          id="factor-timebucket"
+                          data-factor="timebucket"
+                        >
+                          <option value="">همه</option>
+                        </select>
+                      </div>
+                    </div>
+                  </details>
+                  <div class="field touched-r-filter">
+                    <label for="filter-touched-r-min">حداقل R لمس‌شده</label
+                    ><select id="filter-touched-r-min">
+                      <option value="">همه · بدون شرط لمس R</option>
+                      <option value="0">دادهٔ معتبر · حداقل ۰R</option>
+                      <option value="0.5">حداقل ۰٫۵R</option>
+                      <option value="1">حداقل ۱R</option>
+                      <option value="1.5">حداقل ۱٫۵R</option>
+                      <option value="2">حداقل ۲R</option>
+                      <option value="2.5">حداقل ۲٫۵R</option>
+                      <option value="3">حداقل ۳R</option>
+                      <option value="4">حداقل ۴R</option>
+                      <option value="5">حداقل ۵R</option>
+                      <option value="6">حداقل ۶R</option>
+                      <option value="8">حداقل ۸R</option>
+                      <option value="10">حداقل ۱۰R</option></select
+                    ><span class="optional"
+                      >بیشترین سود باز ÷ ریسک اولیه؛ با سایر فیلترها ترکیب
+                      می‌شود.</span
+                    >
+                  </div>
+                </details>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="metrics-grid dashboard-primary">
+          <article class="metric-card">
+            <div class="metric-label">
+              سود و زیان خالص <span class="metric-index">۰۳</span>
+            </div>
+            <strong class="metric-value" id="metric-net">۰٫۰۰ USD</strong>
+            <div class="metric-note">پس از کسر کارمزد ثبت‌شده</div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-label">
+              نرخ برد <span class="metric-index">۰۲</span>
+            </div>
+            <strong class="metric-value" id="metric-winrate">—</strong>
+            <div class="metric-note" id="metric-record">
+              ۰ برد · ۰ باخت · ۰ سربه‌سر
+            </div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-label">
+              میانگین R واقعی <span class="metric-index">۰۵</span>
+            </div>
+            <strong class="metric-value" id="metric-realized">—</strong>
+            <div class="metric-note">شامل معاملات سربه‌سر</div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-label">
+              معاملات بسته <span class="metric-index">۰۱</span>
+            </div>
+            <strong class="metric-value" id="metric-closed">۰</strong>
+            <div class="metric-note">
+              <span id="metric-open">۰</span> معاملهٔ باز
+            </div>
+          </article>
+        </div>
+        <p id="metric-context" class="report-context"></p>
+        <details class="dashboard-secondary">
+          <summary>
+            معیارهای بیشتر<span
+              class="heroicon-host"
+              data-heroicon="chevron-down"
+              aria-hidden="true"
+            ></span>
+          </summary>
+          <div class="metrics-grid">
+            <article class="metric-card">
+              <div class="metric-label">
+                میانگین R/R برنامه <span class="metric-index">۰۴</span>
+              </div>
+              <strong class="metric-value" id="metric-planned">—</strong>
+              <div class="metric-note">کیفیت ستاپ هنگام ورود</div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-label">
+                امید ریاضی <span class="metric-index">۰۶</span>
+              </div>
+              <strong class="metric-value" id="metric-expectancy">—</strong>
+              <div class="metric-note">میانگین R هر معاملهٔ بسته</div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-label">
+                ضریب سود <span class="metric-index">۰۷</span>
+              </div>
+              <strong class="metric-value" id="metric-profit-factor">—</strong>
+              <div class="metric-note">مجموع بردها ÷ مجموع باخت‌ها</div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-label">
+                سربه‌سر <span class="metric-index">۰۸</span>
+              </div>
+              <strong class="metric-value" id="metric-breakeven">۰</strong>
+              <div class="metric-note">از محاسبهٔ نرخ برد حذف می‌شود</div>
+            </article>
+          </div>
+        </details>
+        <p
+          class="sr-only"
+          id="metric-live"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        ></p>
+        <div class="dashboard-status-links">
+          <a href="#trades" data-status-shortcut="open"
+            ><strong id="dashboard-open-count">۰</strong> پوزیشن باز</a
+          ><a href="#trades" data-status-shortcut="planned"
+            ><strong id="dashboard-planned-count">۰</strong> پوزیشن
+            برنامه‌ریزی‌شده</a
+          >
+        </div>
+        <article class="card dashboard-recent">
+          <div class="card-header">
+            <h2>معاملات اخیر</h2>
+            <a class="icon-link" href="#trades"
+              >همهٔ معاملات
+              <span
+                class="heroicon-host"
+                data-heroicon="arrow-left"
+                aria-hidden="true"
+              ></span
+            ></a>
+          </div>
+          <div id="dashboard-recent"></div>
+        </article>
+      </section>
+      <section class="app-page" id="trades-page" data-app-page="trades" hidden>
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">معاملات</h1>
+            <p>دفتر معاملات، جست‌وجو و نتیجهٔ هر پوزیشن</p>
+          </div>
+        </header>
+        <div id="journal-filter-slot"></div>
+        <article class="card table-card" id="position-trades">
+          <div
+            class="table-scroll trade-desktop-table"
+            tabindex="0"
+            aria-label="جدول قابل پیمایش معاملات"
+          >
+            <table>
+              <caption>
+                معاملات ذخیره‌شده
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">ورود</th>
+                  <th scope="col">نماد / حساب</th>
+                  <th scope="col">ستاپ</th>
+                  <th scope="col">وضعیت</th>
+                  <th scope="col">R/R پلن</th>
+                  <th scope="col">بیشترین R</th>
+                  <th scope="col">P&amp;L / R واقعی</th>
+                  <th scope="col">عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="trade-rows"></tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span id="table-count">۰ معامله</span
+            ><span>جدیدترین ابتدا · فیلتر تاریخ بر اساس ورود</span>
+          </div>
+        </article>
+        <div id="trade-mobile-cards" class="trade-mobile-cards"></div>
+        <nav
+          id="trade-pagination"
+          class="trade-pagination"
+          aria-label="صفحه‌بندی معاملات"
+        >
+          <button id="trades-prev" class="button ghost" type="button">
+            صفحهٔ قبل</button
+          ><span
+            id="trades-page-label"
+            tabindex="-1"
+            role="status"
+            aria-live="polite"
+          ></span
+          ><button id="trades-next" class="button ghost" type="button">
+            صفحهٔ بعد
+          </button>
+        </nav>
+      </section>
+      <section class="app-page" id="editor-page" data-app-page="editor" hidden>
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">معاملهٔ جدید</h1>
+            <p>
+              اطلاعات اصلی را ثبت کن؛ جزئیات تکمیلی در بخش‌های بازشدنی قرار
+              دارند.
+            </p>
+          </div>
+        </header>
+        <div class="workbench">
+          <article class="card" id="form-card">
+            <div class="card-header">
+              <h3 id="form-title">ثبت معامله</h3>
+              <p>فیلدهای اصلی اجباری‌اند؛ جزئیات بیشتر یعنی تحلیل دقیق‌تر.</p>
+            </div>
+            <div class="card-body">
+              <div class="edit-banner" id="edit-banner" role="status">
+                <span id="edit-banner-text">ویرایش معامله</span
+                ><button
+                  class="button ghost small"
+                  id="cancel-edit-top"
+                  type="button"
+                >
+                  لغو ویرایش
+                </button>
+              </div>
+
+              <p
+                id="account-settings-context"
+                class="account-settings-context"
+                hidden
+              ></p>
+
+              <form id="trade-form" novalidate>
+                <fieldset
+                  class="form-accordion"
+                  data-accordion
+                  data-default-open="true"
+                >
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-market-trigger"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls="accordion-market-panel"
+                    >
+                      <span>اطلاعات اصلی معامله</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-market-panel"
+                    role="region"
+                    aria-labelledby="accordion-market-trigger"
+                  >
+                    <div class="field-grid four">
+                      <div class="field">
+                        <label for="open-date">تاریخ ورود (شمسی)</label
+                        ><input
+                          class="numeric"
+                          id="open-date"
+                          name="openDate"
+                          type="text"
+                          inputmode="numeric"
+                          maxlength="10"
+                          placeholder="۱۴۰۵/۰۵/۱۲"
+                          autocomplete="off"
+                          data-persian-date
+                          required
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="open-time">ساعت ورود</label
+                        ><input
+                          class="numeric"
+                          id="open-time"
+                          name="openTime"
+                          type="text"
+                          inputmode="numeric"
+                          maxlength="5"
+                          placeholder="۱۴:۳۰"
+                          autocomplete="off"
+                          data-persian-time
+                          required
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="symbol">نماد</label
+                        ><input
+                          class="ltr"
+                          id="symbol"
+                          name="symbol"
+                          type="text"
+                          maxlength="24"
+                          placeholder="مثلاً BTCUSDT یا BO 1T"
+                          autocomplete="off"
+                          spellcheck="false"
+                          required
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="market-type">بازار</label
+                        ><select id="market-type" name="marketType">
+                          <option value="crypto">ارز دیجیتال</option>
+                          <option value="forex">فارکس</option>
+                          <option value="stocks">سهام</option>
+                          <option value="futures">فیوچرز</option>
+                          <option value="indices">شاخص</option>
+                          <option value="commodities">کالا</option>
+                          <option value="other">سایر</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="status">وضعیت</label
+                        ><select id="status" name="status">
+                          <option value="planned">برنامه‌ریزی‌شده</option>
+                          <option value="open" selected>باز</option>
+                          <option value="closed">بسته</option>
+                        </select>
+                      </div>
+
+                      <div class="field full">
+                        <span class="field-label" id="direction-label"
+                          >جهت معامله</span
+                        >
+                        <div
+                          class="segmented"
+                          role="radiogroup"
+                          aria-labelledby="direction-label"
+                        >
+                          <label
+                            ><input
+                              type="radio"
+                              name="direction"
+                              value="long"
+                              checked
+                            /><span>لانگ</span></label
+                          ><label
+                            ><input
+                              type="radio"
+                              name="direction"
+                              value="short"
+                            /><span>شورت</span></label
+                          >
+                        </div>
+                      </div>
+                      <div class="field">
+                        <label for="entry">قیمت ورود</label
+                        ><input
+                          class="numeric"
+                          id="entry"
+                          name="entry"
+                          type="text"
+                          inputmode="decimal"
+                          placeholder="۰٫۰۰"
+                          autocomplete="off"
+                          data-localized-number
+                          required
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="stop">حد ضرر</label
+                        ><input
+                          class="numeric"
+                          id="stop"
+                          name="stop"
+                          type="text"
+                          inputmode="decimal"
+                          placeholder="۰٫۰۰"
+                          autocomplete="off"
+                          data-localized-number
+                          required
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="target">هدف</label
+                        ><input
+                          class="numeric"
+                          id="target"
+                          name="target"
+                          type="text"
+                          inputmode="decimal"
+                          placeholder="۰٫۰۰"
+                          autocomplete="off"
+                          data-localized-number
+                          required
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="quantity">حجم / تعداد</label
+                        ><input
+                          class="numeric"
+                          id="quantity"
+                          name="quantity"
+                          type="text"
+                          inputmode="decimal"
+                          placeholder="از حجم پیشنهادی استفاده کن"
+                          autocomplete="off"
+                          data-localized-number
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-accordion" data-accordion>
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-timeframe-directions-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="accordion-timeframe-directions-panel"
+                    >
+                      <span>جهت تایم‌فریم‌ها</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-timeframe-directions-panel"
+                    role="region"
+                    aria-labelledby="accordion-timeframe-directions-trigger"
+                    hidden
+                  >
+                    <p class="timeframe-directions-help">
+                      جهت بازار در هر تایم‌فریم را برای همین پوزیشن ثبت کن؛ این
+                      جهت‌ها مستقل از لانگ یا شورت بودن معامله‌اند.
+                    </p>
+                    <div class="field-grid timeframe-direction-fields">
+                      <div class="field">
+                        <label for="bias-monthly">جهت ماهانه</label
+                        ><select
+                          id="bias-monthly"
+                          name="timeframeDirection-monthly"
+                        >
+                          <option value="unknown">ثبت نشده</option>
+                          <option value="bullish">صعودی</option>
+                          <option value="bearish">نزولی</option>
+                          <option value="neutral">خنثی</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="bias-weekly">جهت هفتگی</label
+                        ><select
+                          id="bias-weekly"
+                          name="timeframeDirection-weekly"
+                        >
+                          <option value="unknown">ثبت نشده</option>
+                          <option value="bullish">صعودی</option>
+                          <option value="bearish">نزولی</option>
+                          <option value="neutral">خنثی</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="bias-daily">جهت روزانه</label
+                        ><select
+                          id="bias-daily"
+                          name="timeframeDirection-daily"
+                        >
+                          <option value="unknown">ثبت نشده</option>
+                          <option value="bullish">صعودی</option>
+                          <option value="bearish">نزولی</option>
+                          <option value="neutral">خنثی</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="bias-h4">جهت ۴ ساعته</label
+                        ><select id="bias-h4" name="timeframeDirection-h4">
+                          <option value="unknown">ثبت نشده</option>
+                          <option value="bullish">صعودی</option>
+                          <option value="bearish">نزولی</option>
+                          <option value="neutral">خنثی</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-accordion" data-accordion>
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-plan-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="accordion-plan-panel"
+                    >
+                      <span>ستاپ و برنامهٔ ورود</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-plan-panel"
+                    role="region"
+                    aria-labelledby="accordion-plan-trigger"
+                    hidden
+                  >
+                    <div class="field-grid three">
+                      <div class="field">
+                        <label for="strategy">استراتژی / نام ستاپ</label
+                        ><datalist id="strategy-suggestions"></datalist
+                        ><input
+                          list="strategy-suggestions"
+                          id="strategy"
+                          name="strategy"
+                          type="text"
+                          maxlength="80"
+                          placeholder="مثلاً شکست و پولبک"
+                          autocomplete="off"
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="timeframe">تایم‌فریم</label
+                        ><select id="timeframe" name="timeframe">
+                          <option value="unknown">ثبت نشده</option>
+                          <option value="1m">۱ دقیقه</option>
+                          <option value="5m">۵ دقیقه</option>
+                          <option value="15m">۱۵ دقیقه</option>
+                          <option value="30m">۳۰ دقیقه</option>
+                          <option value="1h">۱ ساعت</option>
+                          <option value="4h">۴ ساعت</option>
+                          <option value="1d">روزانه</option>
+                          <option value="1w">هفتگی</option>
+                          <option value="multi">چندتایم‌فریم</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="setup-quality">کیفیت ستاپ</label
+                        ><select id="setup-quality" name="setupQuality">
+                          <option value="">ثبت نشده</option>
+                          <option value="1">۱ — ضعیف</option>
+                          <option value="2">۲</option>
+                          <option value="3">۳ — متوسط</option>
+                          <option value="4">۴</option>
+                          <option value="5">۵ — عالی</option>
+                        </select>
+                      </div>
+
+                      <div class="field-grid plan-session-fees">
+                        <div class="field">
+                          <label for="fees"
+                            >کل / برآورد کارمزد
+                            <span class="optional">اختیاری</span></label
+                          ><input
+                            class="numeric"
+                            id="fees"
+                            name="fees"
+                            type="text"
+                            inputmode="decimal"
+                            value="۰"
+                            autocomplete="off"
+                            data-localized-number
+                          />
+                        </div>
+                        <div class="field">
+                          <label for="session">سشن معاملاتی</label
+                          ><select id="session" name="session">
+                            <option value="unknown">ثبت نشده</option>
+                            <option value="asia">آسیا</option>
+                            <option value="london">لندن</option>
+                            <option value="newyork">نیویورک</option>
+                            <option value="overlap">
+                              هم‌پوشانی لندن/نیویورک
+                            </option>
+                            <option value="offhours">خارج از سشن اصلی</option>
+                            <option value="other">سایر</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="field full">
+                        <label for="entry-reason">دلیل ورود و سناریو</label
+                        ><textarea
+                          id="entry-reason"
+                          name="entryReason"
+                          maxlength="1200"
+                          placeholder="چه چیزی باعث ورود شد؟ نقطهٔ بی‌اعتباری و سناریوی اصلی چیست؟"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-accordion" data-accordion>
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-confirmations-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="accordion-confirmations-panel"
+                    >
+                      <span>تأییدیه‌های تکنیکال</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-confirmations-panel"
+                    role="region"
+                    aria-labelledby="accordion-confirmations-trigger"
+                    hidden
+                  >
+                    <div class="confirmation-tools">
+                      <p>
+                        تأییدیه‌های این پوزیشن را انتخاب کن؛ جهت و یادداشت،
+                        مطابق نوعی که در تنظیمات تعیین شده نمایش داده می‌شوند.
+                      </p>
+                    </div>
+                    <div
+                      class="confirmation-wrap"
+                      id="confirmation-options"
+                      aria-label="فهرست تأییدیه‌ها"
+                    ></div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-accordion" data-accordion>
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-psychology-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="accordion-psychology-panel"
+                    >
+                      <span>روان‌شناسی و اجرای پلن</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-psychology-panel"
+                    role="region"
+                    aria-labelledby="accordion-psychology-trigger"
+                    hidden
+                  >
+                    <div class="field-grid three">
+                      <div class="field">
+                        <label for="emotion">حالت ذهنی هنگام ورود</label
+                        ><select id="emotion" name="emotion">
+                          <option value="unknown">ثبت نشده</option>
+                          <option value="calm">آرام و متمرکز</option>
+                          <option value="confident">بااعتمادبه‌نفس</option>
+                          <option value="anxious">مضطرب</option>
+                          <option value="fomo">فومو</option>
+                          <option value="revenge">انتقامی</option>
+                          <option value="impatient">بی‌صبر</option>
+                          <option value="tired">خسته</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="confidence">اعتماد به ستاپ</label
+                        ><select id="confidence" name="confidence">
+                          <option value="">ثبت نشده</option>
+                          <option value="1">۱ — کم</option>
+                          <option value="2">۲</option>
+                          <option value="3">۳ — متوسط</option>
+                          <option value="4">۴</option>
+                          <option value="5">۵ — زیاد</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label for="plan-followed">پایبندی به پلن</label
+                        ><select id="plan-followed" name="planFollowed">
+                          <option value="unknown">ثبت نشده</option>
+                          <option value="yes">کامل</option>
+                          <option value="partial">نسبی</option>
+                          <option value="no">خیر</option>
+                        </select>
+                      </div>
+                      <div class="field full">
+                        <label for="mistake-type">اشتباه اصلی</label
+                        ><select id="mistake-type" name="mistakeType">
+                          <option value="none">بدون اشتباه</option>
+                          <option value="early-entry">ورود زودهنگام</option>
+                          <option value="late-entry">ورود دیرهنگام</option>
+                          <option value="oversize">حجم بیش‌ازحد</option>
+                          <option value="moved-stop">جابه‌جایی حد ضرر</option>
+                          <option value="early-exit">خروج زودهنگام</option>
+                          <option value="late-exit">خروج دیرهنگام</option>
+                          <option value="no-stop">بدون حد ضرر</option>
+                          <option value="revenge">معاملهٔ انتقامی</option>
+                          <option value="other">سایر</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset
+                  class="form-accordion"
+                  id="excursion-fields"
+                  data-accordion
+                >
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-excursion-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="accordion-excursion-panel"
+                    >
+                      <span>سود و زیان تحقق نیافته</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-excursion-panel"
+                    role="region"
+                    aria-labelledby="accordion-excursion-trigger"
+                    hidden
+                  >
+                    <div class="peak-r-preview" aria-live="polite" hidden>
+                      <span id="position-max-r-label"
+                        >بیشترین R همین پوزیشن</span
+                      ><output
+                        id="form-max-touched-r"
+                        aria-labelledby="position-max-r-label"
+                        >—</output
+                      ><small id="form-max-touched-r-context"
+                        >اوج سود باز ÷ ریسک اولیهٔ معامله؛ پیش از کارمزد. با R/R
+                        هدف و R تحقق‌یافته فرق دارد.</small
+                      >
+                    </div>
+                    <p class="sr-only" id="excursion-help">
+                      بیشترین سود و عمیق‌ترین زیان مشاهده‌شده در مدت باز بودن
+                      همین معامله را دستی و به واحد حساب ثبت کن؛ هر دو مبلغ را
+                      مثبت و بدون کارمزد وارد کن. صفر یعنی مقدار ثبت‌شده صفر
+                      است؛ خالی یعنی نامشخص. این دو سقف، مشاهدات جداگانه‌اند و
+                      با سود خالص تحقق‌یافته فرق دارند.
+                    </p>
+                    <div class="field-grid">
+                      <div class="field">
+                        <label for="max-unrealized-profit"
+                          >بیشترین سود باز
+                          <span class="optional">اختیاری</span></label
+                        ><input
+                          class="numeric"
+                          id="max-unrealized-profit"
+                          name="maxUnrealizedProfit"
+                          type="text"
+                          inputmode="decimal"
+                          placeholder="ثبت نشده"
+                          autocomplete="off"
+                          data-localized-number
+                          aria-describedby="excursion-help"
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="max-unrealized-loss"
+                          >بیشترین زیان باز
+                          <span class="optional">اختیاری</span></label
+                        ><input
+                          class="numeric"
+                          id="max-unrealized-loss"
+                          name="maxUnrealizedLoss"
+                          type="text"
+                          inputmode="decimal"
+                          placeholder="ثبت نشده"
+                          autocomplete="off"
+                          data-localized-number
+                          aria-describedby="excursion-help"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset
+                  class="form-accordion"
+                  id="partial-exits-fields"
+                  data-accordion
+                >
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-partial-exits-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="accordion-partial-exits-panel"
+                    >
+                      <span>خروج پله‌ای و ذخیرهٔ سود</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-partial-exits-panel"
+                    role="region"
+                    aria-labelledby="accordion-partial-exits-trigger"
+                    hidden
+                  >
+                    <p class="partial-exit-intro" id="partial-exit-help">
+                      برای هر خروج واقعی، R آن خروج و درصدی از
+                      <strong>حجم اولیهٔ پوزیشن</strong> را ثبت کن. R مثبت سود،
+                      صفر سربه‌سر و R منفی زیان است؛ کارمزد در این R منظور نشده
+                      است.
+                    </p>
+                    <p
+                      class="partial-exit-plan-note"
+                      id="partial-exit-plan-note"
+                      hidden
+                    >
+                      پوزیشن برنامه‌ریزی‌شده هنوز خروج واقعی ندارد. وضعیت را به
+                      «باز» یا «بسته» تغییر بده تا پله‌ها قابل ثبت باشند.
+                    </p>
+                    <div class="partial-exit-toolbar">
+                      <button
+                        class="button ghost"
+                        id="add-partial-exit"
+                        type="button"
+                      >
+                        <span
+                          class="heroicon-host"
+                          data-heroicon="plus"
+                          aria-hidden="true"
+                        ></span
+                        >افزودن خروج پله‌ای
+                      </button>
+                      <p>مجموع پله‌ها حداکثر ۱۰۰٪ از حجم اولیه است.</p>
+                    </div>
+                    <p class="partial-exit-empty" id="partial-exit-empty">
+                      هنوز خروج پله‌ای ثبت نشده است.
+                    </p>
+                    <div
+                      class="partial-exit-list"
+                      id="partial-exit-list"
+                      aria-label="خروج‌های پله‌ای این پوزیشن"
+                    ></div>
+                    <dl
+                      class="partial-exit-summary"
+                      id="partial-exit-summary"
+                      hidden
+                    >
+                      <div>
+                        <dt>حجم خارج‌شده</dt>
+                        <dd id="partial-exit-closed-percent">—</dd>
+                      </div>
+                      <div>
+                        <dt>حجم باقی‌مانده</dt>
+                        <dd id="partial-exit-remaining">—</dd>
+                      </div>
+                      <div>
+                        <dt>سود / زیان ناخالص ذخیره‌شده</dt>
+                        <dd id="partial-exit-gross">—</dd>
+                      </div>
+                      <div>
+                        <dt>خالص تا این لحظه پس از کل کارمزد واردشده</dt>
+                        <dd id="partial-exit-net">—</dd>
+                      </div>
+                    </dl>
+                    <p
+                      class="partial-exit-state"
+                      id="partial-exit-state"
+                      role="status"
+                      aria-live="polite"
+                    ></p>
+                    <p class="partial-exit-note">
+                      کل کارمزد معامله فقط یک بار کسر می‌شود. هنگام بستن، قیمت
+                      خروج نهایی برای حجم باقی‌مانده است. نتیجهٔ پله‌های یک
+                      پوزیشن باز، تا بسته شدن کامل آن وارد آمار معاملات بسته
+                      نمی‌شود.
+                    </p>
+                  </div>
+                </fieldset>
+
+                <fieldset
+                  class="form-accordion close-fields"
+                  id="close-fields"
+                  data-accordion
+                >
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-result-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="accordion-result-panel"
+                    >
+                      <span>نتیجه و مرور معامله</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-result-panel"
+                    role="region"
+                    aria-labelledby="accordion-result-trigger"
+                    hidden
+                  >
+                    <div class="field-grid three">
+                      <div class="field">
+                        <label for="close-date">تاریخ خروج (شمسی)</label
+                        ><input
+                          class="numeric"
+                          id="close-date"
+                          name="closeDate"
+                          type="text"
+                          inputmode="numeric"
+                          maxlength="10"
+                          placeholder="۱۴۰۵/۰۵/۱۲"
+                          autocomplete="off"
+                          data-persian-date
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="close-time">ساعت خروج</label
+                        ><input
+                          class="numeric"
+                          id="close-time"
+                          name="closeTime"
+                          type="text"
+                          inputmode="numeric"
+                          maxlength="5"
+                          placeholder="۱۴:۳۰"
+                          autocomplete="off"
+                          data-persian-time
+                        />
+                      </div>
+                      <div class="field">
+                        <label for="exit">قیمت خروج حجم باقی‌مانده</label
+                        ><span
+                          class="optional"
+                          id="partial-final-exit-note"
+                          hidden
+                          >تمام حجم با خروج‌های پله‌ای بسته شده است؛ قیمت نهایی
+                          لازم نیست.</span
+                        ><input
+                          class="numeric"
+                          id="exit"
+                          name="exit"
+                          type="text"
+                          inputmode="decimal"
+                          placeholder="۰٫۰۰"
+                          autocomplete="off"
+                          data-localized-number
+                        />
+                      </div>
+                      <div class="field full">
+                        <label for="form-realized-pnl"
+                          >P&amp;L محقق‌شدهٔ خالص</label
+                        ><output id="form-realized-pnl" class="cell-primary"
+                          >—</output
+                        ><span class="optional"
+                          >از مجموع خروج‌های پله‌ای و خروج حجم باقی‌مانده، پس از
+                          کسر یک‌بارهٔ کل کارمزد محاسبه می‌شود؛ اوج سود و زیان
+                          باز، ناخالص‌اند.</span
+                        >
+                      </div>
+                      <div class="field full">
+                        <label for="exit-reason">دلیل خروج</label
+                        ><textarea
+                          id="exit-reason"
+                          name="exitReason"
+                          maxlength="1000"
+                          placeholder="هدف، حد ضرر، خروج دستی یا تغییر سناریو؟"
+                        ></textarea>
+                      </div>
+                      <div class="field full">
+                        <label for="lesson">درس این معامله</label
+                        ><textarea
+                          id="lesson"
+                          name="lesson"
+                          maxlength="1000"
+                          placeholder="برای معاملهٔ بعدی چه چیزی را تکرار یا اصلاح می‌کنی؟"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-accordion" data-accordion>
+                  <legend>
+                    <button
+                      class="accordion-trigger"
+                      id="accordion-notes-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="accordion-notes-panel"
+                    >
+                      <span>یادداشت و مدرک</span
+                      ><span
+                        class="heroicon-host accordion-icon"
+                        data-heroicon="chevron-down"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </legend>
+                  <div
+                    class="accordion-panel"
+                    id="accordion-notes-panel"
+                    role="region"
+                    aria-labelledby="accordion-notes-trigger"
+                    hidden
+                  >
+                    <div class="field-grid">
+                      <div
+                        class="field full trade-image-editor"
+                        id="trade-image-editor"
+                      >
+                        <span class="field-label" id="trade-images-label"
+                          >تصاویر معامله
+                          <span class="optional">اختیاری</span></span
+                        >
+                        <div
+                          class="trade-image-dropzone"
+                          id="trade-image-dropzone"
+                          tabindex="0"
+                          role="group"
+                          aria-labelledby="trade-images-label"
+                          aria-describedby="trade-image-help"
+                        >
+                          <strong>تصویر را اینجا بکش و رها کن</strong>
+                          <p>یا در فرم معامله، تصویر کپی‌شده را بچسبان</p>
+                          <button
+                            class="button ghost"
+                            id="choose-trade-images"
+                            type="button"
+                          >
+                            <span
+                              class="heroicon-host"
+                              data-heroicon="photo"
+                              aria-hidden="true"
+                            ></span>
+                            انتخاب تصویر
+                          </button>
+                          <input
+                            id="trade-image-files"
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp,image/gif"
+                            multiple
+                            hidden
+                          />
+                        </div>
+                        <p class="trade-image-help" id="trade-image-help">
+                          حداکثر ۶ تصویر برای هر معامله · PNG، JPG، WebP و GIF ·
+                          چسباندن با <kbd>Ctrl + V</kbd>. تصاویر برای ذخیره کوچک
+                          می‌شوند؛ GIF به تصویر ثابت تبدیل می‌شود.
+                        </p>
+                        <p
+                          class="trade-image-status"
+                          id="trade-image-status"
+                          role="status"
+                          aria-live="polite"
+                        >
+                          هنوز تصویری اضافه نشده است.
+                        </p>
+                        <div
+                          class="trade-image-previews"
+                          id="trade-image-previews"
+                          aria-label="تصاویر انتخاب‌شده"
+                        ></div>
+                      </div>
+                      <div class="field full">
+                        <label for="screenshot-ref"
+                          >لینک یا مسیر اسکرین‌شات
+                          <span class="optional">اختیاری</span></label
+                        ><input
+                          class="ltr"
+                          id="screenshot-ref"
+                          name="screenshotRef"
+                          type="text"
+                          maxlength="500"
+                          placeholder="مثلاً https://… یا مسیر فایل"
+                          autocomplete="off"
+                        />
+                      </div>
+                      <div class="field full">
+                        <label for="notes"
+                          >یادداشت آزاد
+                          <span class="optional">اختیاری</span></label
+                        ><textarea
+                          id="notes"
+                          name="notes"
+                          maxlength="3000"
+                          placeholder="جزئیات اجرا، شرایط بازار، نکته‌های تکمیلی…"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <div class="form-message" id="form-message" role="alert"></div>
+                <div class="form-actions sticky-editor-actions">
+                  <button class="button ghost" id="reset-form" type="button">
+                    پاک‌کردن فرم
+                  </button>
+                  <div>
+                    <button
+                      class="button ghost is-hidden"
+                      id="cancel-edit"
+                      type="button"
+                    >
+                      لغو</button
+                    ><button
+                      class="button primary"
+                      id="save-trade"
+                      type="submit"
+                    >
+                      ذخیرهٔ معامله
+                    </button>
+                  </div>
+                  <a class="button ghost" id="editor-back" href="#trades"
+                    >بازگشت</a
+                  >
+                </div>
+              </form>
+            </div>
+          </article>
+
+          <aside
+            class="card calculator-panel"
+            aria-labelledby="live-calc-title"
+          >
+            <div class="calculator-visual">
+              <div class="calc-kicker" id="live-calc-title">
+                امتیاز زندهٔ ستاپ
+              </div>
+              <div class="calc-ratio" id="calc-ratio">—<span> R/R</span></div>
+              <p class="calc-caption" id="calc-caption">
+                ورود، حد ضرر و هدف معتبر را وارد کن.
+              </p>
+              <div class="rr-bar" aria-hidden="true">
+                <div class="rr-risk" id="rr-risk-bar"></div>
+                <div class="rr-reward" id="rr-reward-bar"></div>
+              </div>
+              <div class="bar-labels">
+                <span>ریسک</span><span>پاداش احتمالی</span>
+              </div>
+            </div>
+            <div class="editor-account-budget">
+              <span id="editor-account-budget"></span
+              ><a class="icon-link" href="#accounts"
+                >تنظیمات ریسک حساب
+                <span
+                  class="heroicon-host"
+                  data-heroicon="arrow-left"
+                  aria-hidden="true"
+                ></span
+              ></a>
+            </div>
+            <div class="calc-grid">
+              <div class="calc-item">
+                <span class="calc-label">بودجهٔ ریسک</span
+                ><strong class="calc-value red" id="calc-budget">—</strong>
+              </div>
+              <div class="calc-item">
+                <span class="calc-label">حجم پیشنهادی</span
+                ><strong class="calc-value mint" id="calc-size">—</strong>
+              </div>
+              <div class="calc-item">
+                <span class="calc-label">فاصلهٔ حد ضرر</span
+                ><strong class="calc-value" id="calc-stop">—</strong>
+              </div>
+              <div class="calc-item">
+                <span class="calc-label">فاصلهٔ هدف</span
+                ><strong class="calc-value" id="calc-target">—</strong>
+              </div>
+              <div class="calc-item">
+                <span class="calc-label">ریسک برنامه</span
+                ><strong class="calc-value red" id="calc-risk">—</strong>
+              </div>
+              <div class="calc-item">
+                <span class="calc-label">پاداش برنامه</span
+                ><strong class="calc-value mint" id="calc-reward">—</strong>
+              </div>
+            </div>
+            <div class="suggested-action">
+              <button class="button" id="use-suggested" type="button" disabled>
+                استفاده از حجم پیشنهادی
+              </button>
+              <p class="calc-warning" id="calc-warning"></p>
+              <p
+                class="sr-only"
+                id="calc-live"
+                aria-live="polite"
+                aria-atomic="true"
+              ></p>
+            </div>
+          </aside>
+        </div>
+        <div class="settings-strip" aria-label="تنظیمات ریسک" hidden>
+          <div class="field">
+            <label for="account-balance">موجودی حساب</label
+            ><input
+              class="numeric"
+              id="account-balance"
+              name="accountBalance"
+              type="text"
+              value="۱۰۰۰۰"
+              inputmode="decimal"
+              autocomplete="off"
+              data-localized-number
+            />
+          </div>
+
+          <div class="field">
+            <span class="field-label" id="risk-method-label"
+              >روش بودجهٔ ریسک</span
+            >
+            <div
+              class="segmented"
+              role="radiogroup"
+              aria-labelledby="risk-method-label"
+            >
+              <label
+                ><input
+                  type="radio"
+                  name="risk-mode"
+                  value="percent"
+                  checked
+                /><span>درصدی</span></label
+              ><label
+                ><input type="radio" name="risk-mode" value="fixed" /><span
+                  >مبلغ ثابت</span
+                ></label
+              >
+            </div>
+          </div>
+          <div class="field full" id="percent-risk-field">
+            <label for="risk-percent">ریسک هر معامله (٪)</label
+            ><input
+              class="numeric"
+              id="risk-percent"
+              name="riskPercent"
+              type="text"
+              value="۱"
+              inputmode="decimal"
+              autocomplete="off"
+              data-localized-number
+            />
+          </div>
+          <div class="field full is-hidden" id="fixed-risk-field">
+            <label for="fixed-risk">مبلغ ثابت ریسک</label
+            ><input
+              class="numeric"
+              id="fixed-risk"
+              name="fixedRisk"
+              type="text"
+              value="۱۰۰"
+              inputmode="decimal"
+              autocomplete="off"
+              data-localized-number
+            />
+          </div>
+        </div>
+      </section>
+      <section class="app-page" id="charts-page" data-app-page="charts" hidden>
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">نمودارهای نرخ برد</h1>
+            <p>
+              مقایسهٔ ساعت ورود، روزهای هفته، روزهای ماه و فاکتورهای ثبت‌شده
+            </p>
+          </div>
+          <a class="button ghost" href="#analytics/table">جدول تحلیل کامل</a>
+        </header>
+        <div id="charts-filter-slot"></div>
+        <div id="charts-root"></div>
+      </section>
+      <section
+        class="app-page"
+        id="analytics-page"
+        data-app-page="analytics"
+        hidden
+      >
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">تحلیل عملکرد</h1>
+            <p>نتایج ثبت‌شدهٔ معاملات؛ با همان فیلترهای دفتر معاملات</p>
+          </div>
+        </header>
+        <div id="analysis-filter-slot"></div>
+        <nav class="analytics-tabs" aria-label="بخش‌های تحلیل">
+          <a href="#analytics" data-analytics-tab="summary">خلاصه</a
+          ><a href="#analytics/factors" data-analytics-tab="factors">فاکتورها</a
+          ><a href="#analytics/time" data-analytics-tab="time">زمان</a
+          ><a href="#analytics/behavior" data-analytics-tab="behavior">رفتار</a
+          ><a href="#analytics/reached-r" data-analytics-tab="reached-r"
+            >R لمس‌شده</a
+          ><a href="#analytics/table" data-analytics-tab="table">جدول مقایسه</a>
+        </nav>
+        <section
+          class="analytics-panel"
+          id="analytics-summary"
+          data-analytics-panel="summary"
+          hidden
+        >
+          <h2>خلاصهٔ عملکرد</h2>
+          <p
+            class="factor-context"
+            id="factor-summary-context"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div
+            class="factor-summary"
+            id="factor-summary"
+            aria-label="عملکرد معاملات فیلترشده"
+          ></div>
+          <div class="insight-grid" id="insight-grid"></div>
+        </section>
+        <section
+          class="analytics-panel"
+          id="analytics-factors"
+          data-analytics-panel="factors"
+          hidden
+        >
+          <article class="card analysis-card">
+            <div class="card-header">
+              <div>
+                <h3>تأییدیه‌های تکنیکال</h3>
+                <p>هر معامله در تمام تأییدیه‌های انتخابی خودش شمرده می‌شود</p>
+              </div>
+            </div>
+            <div class="analysis-list" id="analysis-confirmations"></div>
+          </article>
+        </section>
+        <section
+          class="analytics-panel"
+          id="analytics-time"
+          data-analytics-panel="time"
+          hidden
+        >
+          <article class="card analysis-card">
+            <div class="card-header">
+              <div>
+                <h3>سشن معاملاتی</h3>
+                <p>آسیا، لندن، نیویورک و هم‌پوشانی</p>
+              </div>
+            </div>
+            <div class="analysis-list" id="analysis-sessions"></div>
+          </article>
+          <article class="card analysis-card">
+            <div class="card-header">
+              <div>
+                <h3>روز و زمان</h3>
+                <p>روز هفته، آخرهفته و بازهٔ زمانی</p>
+              </div>
+              <select id="time-analysis-mode" aria-label="نوع تحلیل زمان">
+                <option value="weekday">روز هفته</option>
+                <option value="weekpart">روزکاری / آخرهفته</option>
+                <option value="timebucket">بازهٔ زمانی</option>
+              </select>
+            </div>
+            <div class="analysis-list" id="analysis-time"></div>
+          </article>
+        </section>
+        <section
+          class="analytics-panel"
+          id="analytics-behavior"
+          data-analytics-panel="behavior"
+          hidden
+        >
+          <article class="card analysis-card">
+            <div class="card-header">
+              <div>
+                <h3>رفتار و روش</h3>
+                <p>اثر استراتژی، ذهنیت و اجرای پلن</p>
+              </div>
+              <select id="behavior-analysis-mode" aria-label="نوع تحلیل رفتاری">
+                <option value="strategy">استراتژی</option>
+                <option value="timeframe">تایم‌فریم</option>
+                <option value="planFollowed">پایبندی به پلن</option>
+                <option value="emotion">حالت ذهنی</option>
+                <option value="setupQuality">کیفیت ستاپ</option>
+                <option value="confidence">اعتماد به ستاپ</option>
+                <option value="direction">جهت معامله</option>
+                <option value="marketType">بازار</option>
+                <option value="mistakeType">نوع اشتباه</option>
+                <option value="maxTouchedR">بیشترین R لمس‌شده</option>
+              </select>
+            </div>
+            <div class="analysis-list" id="analysis-behavior"></div>
+          </article>
+        </section>
+        <section
+          class="analytics-panel"
+          id="analytics-reached-r"
+          data-analytics-panel="reached-r"
+          hidden
+        >
+          <article
+            class="card touched-r-card"
+            aria-labelledby="touched-r-title"
+          >
+            <div class="card-header">
+              <div>
+                <h3 id="touched-r-title">پوزیشن تا چند R پیش رفته؟</h3>
+                <p>
+                  تعداد و درصد معاملات رسیده به هر سطح، بر اساس فیلترهای انتخابی
+                </p>
+              </div>
+              <span class="badge">Max R touched</span>
+            </div>
+            <p
+              class="touched-r-context"
+              id="touched-r-context"
+              role="status"
+              aria-live="polite"
+            ></p>
+            <div
+              class="table-scroll"
+              tabindex="0"
+              aria-label="جدول قابل پیمایش سطوح R لمس‌شده"
+            >
+              <table>
+                <caption>
+                  درصد رسیدن به سطوح سود باز؛ هر ردیف شامل معاملات بالاتر از
+                  همان سطح است
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">سطح لمس‌شده</th>
+                    <th scope="col">تعداد رسیده</th>
+                    <th scope="col">درصد رسیدن</th>
+                    <th scope="col">بسته / باز</th>
+                    <th scope="col">برد / باخت / سربه‌سر بسته‌ها</th>
+                    <th scope="col">نرخ برد بسته‌ها</th>
+                    <th scope="col">میانگین R واقعی بسته‌ها</th>
+                    <th scope="col">فیلتر</th>
+                  </tr>
+                </thead>
+                <tbody id="touched-r-rows"></tbody>
+              </table>
+            </div>
+            <p class="touched-r-footnote">
+              سطوح تجمعی‌اند: معامله‌ای که ۳R را لمس کرده، در ردیف‌های ۱R و ۲R
+              هم شمرده می‌شود. درصد رسیدن، نرخ برد نیست؛ یک معامله ممکن است سود
+              باز داشته باشد و در نهایت با زیان بسته شود. R لمس‌شده از بیشترین
+              سود بازِ ثبت‌شده، پیش از کارمزد، و ریسک اولیه محاسبه می‌شود. این
+              مشاهده مربوط به مسیر معامله است و عامل تأیید ورود محسوب نمی‌شود.
+            </p>
+          </article>
+        </section>
+        <section
+          class="analytics-panel"
+          id="analytics-table"
+          data-analytics-panel="table"
+          hidden
+        >
+          <article
+            class="card analysis-table-card"
+            id="rr-winrate-table"
+            aria-labelledby="analysis-table-title"
+          >
+            <div class="card-header">
+              <div>
+                <h3 id="analysis-table-title">جدول تحلیل Win Rate و R/R</h3>
+                <p id="analysis-table-summary">
+                  فقط معاملات بسته‌شده؛ نرخ برد، سربه‌سرها را از مخرج حذف
+                  می‌کند.
+                </p>
+              </div>
+              <div class="field">
+                <label for="analysis-table-mode">گروه‌بندی جدول</label
+                ><select id="analysis-table-mode">
+                  <option value="confirmations">تأییدیهٔ تکنیکال</option>
+                  <option value="strategy">استراتژی / ستاپ</option>
+                  <option value="session">سشن معاملاتی</option>
+                  <option value="weekday">روز هفته</option>
+                  <option value="weekpart">روزکاری / آخرهفته</option>
+                  <option value="timebucket">بازهٔ ساعت ورود</option>
+                  <option value="timeframe">تایم‌فریم</option>
+                  <option value="symbol">نماد</option>
+                  <option value="direction">جهت معامله</option>
+                  <option value="marketType">نوع بازار</option>
+                  <option value="planFollowed">پایبندی به پلن</option>
+                  <option value="emotion">حالت ذهنی</option>
+                  <option value="setupQuality">کیفیت ستاپ</option>
+                  <option value="confidence">اعتماد به ستاپ</option>
+                  <option value="mistakeType">نوع اشتباه</option>
+                  <option value="maxTouchedR">بیشترین R لمس‌شده</option>
+                </select>
+              </div>
+            </div>
+            <div
+              class="table-scroll"
+              tabindex="0"
+              aria-label="جدول قابل پیمایش تحلیل نرخ برد و ریسک به ریوارد"
+            >
+              <table>
+                <caption>
+                  تحلیل نرخ برد، میانگین ریسک به ریوارد برنامه و R واقعی بر اساس
+                  گروه انتخابی
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">گروه</th>
+                    <th scope="col">معامله</th>
+                    <th scope="col">برد</th>
+                    <th scope="col">باخت</th>
+                    <th scope="col">سربه‌سر</th>
+                    <th scope="col">نرخ برد</th>
+                    <th scope="col">میانگین R/R برنامه</th>
+                    <th scope="col">میانگین بیشترین R لمس‌شده</th>
+                    <th scope="col">میانگین R واقعی</th>
+                    <th scope="col">P&amp;L محقق‌شدهٔ خالص</th>
+                    <th scope="col">میانگین اوج سود باز</th>
+                    <th scope="col">میانگین بیشترین زیان باز</th>
+                    <th scope="col">فیلتر این گروه</th>
+                  </tr>
+                </thead>
+                <tbody id="analysis-table-rows"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </section>
+      <section
+        class="app-page"
+        id="rr-winrate"
+        data-app-page="scenarios"
+        hidden
+      >
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">شبیه‌ساز R/R</h1>
+            <p>سناریوهای فرضی؛ مستقل از عملکرد ثبت‌شده و فیلترهای ژورنال</p>
+          </div>
+        </header>
+        <section
+          class="section"
+          id="rr-winrate-matrix"
+          aria-labelledby="projection-title"
+        >
+          <div class="section-head">
+            <div>
+              <h2 id="projection-title">ماتریس سناریوی R/R و Win Rate</h2>
+              <p>
+                مقایسهٔ R/R از ۱ تا ۱۵ و نرخ برد از ۰ تا ۸۰٪ با گام ۵٪؛ هر خانه
+                رشد نظری سناریو را بر اساس مدل انتخابی نشان می‌دهد.
+              </p>
+            </div>
+          </div>
+          <article class="card projection-card">
+            <div class="projection-controls" aria-label="تنظیمات سناریوی رشد">
+              <div class="field">
+                <label for="projection-trades">تعداد پوزیشن‌ها</label
+                ><input
+                  class="numeric"
+                  id="projection-trades"
+                  name="projection-trades"
+                  type="text"
+                  value="۱۰۰"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  data-localized-number
+                  aria-describedby="projection-trades-help"
+                /><span class="optional" id="projection-trades-help"
+                  >برای شمارش TP و SL</span
+                >
+              </div>
+              <div class="field">
+                <label for="projection-risk">ریسک هر پوزیشن (٪)</label
+                ><input
+                  class="numeric"
+                  id="projection-risk"
+                  name="projection-risk"
+                  type="text"
+                  value="۱"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  data-localized-number
+                  aria-describedby="projection-risk-help"
+                /><span class="optional" id="projection-risk-help"
+                  >درصدی از موجودی</span
+                >
+              </div>
+              <div class="field">
+                <label for="projection-balance">موجودی مبنا</label
+                ><input
+                  class="numeric"
+                  id="projection-balance"
+                  name="projection-balance"
+                  type="text"
+                  value="۱۰۰۰۰"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  data-localized-number
+                  aria-describedby="projection-balance-help"
+                /><span class="optional" id="projection-balance-help"
+                  >برای مبلغ ریسک و ماندهٔ نهایی</span
+                >
+              </div>
+              <div class="field">
+                <label for="projection-mode">عدد داخل خانه‌ها</label
+                ><select
+                  id="projection-mode"
+                  name="projection-mode"
+                  autocomplete="off"
+                >
+                  <option value="compound" selected>رشد مرکب (هندسی)</option>
+                  <option value="simple">رشد ساده بر مبنای موجودی اول</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="projection-summary">
+              <div class="projection-summary-head">
+                <div>
+                  <strong id="projection-selected"
+                    >سناریوی انتخابی: R/R ۱:۲ · نرخ برد ۵۰٪</strong
+                  >
+                  <p id="projection-equation">
+                    در حال محاسبهٔ تعداد TP، تعداد SL و رشد حساب…
+                  </p>
+                </div>
+                <span class="projection-breakeven" id="projection-breakeven"
+                  >نرخ برد سربه‌سر: —</span
+                >
+              </div>
+              <div class="projection-metrics">
+                <div class="projection-stat">
+                  <span>TP مورد انتظار</span
+                  ><strong id="projection-tp">—</strong
+                  ><small>تعداد تارگت‌ها</small>
+                </div>
+                <div class="projection-stat">
+                  <span>SL مورد انتظار</span
+                  ><strong id="projection-sl">—</strong
+                  ><small>تعداد استاپ‌ها</small>
+                </div>
+                <div class="projection-stat">
+                  <span>خروجی خالص</span><strong id="projection-net-r">—</strong
+                  ><small>بر حسب R</small>
+                </div>
+                <div class="projection-stat">
+                  <span>ریسک هر پوزیشن</span
+                  ><strong id="projection-risk-amount">—</strong
+                  ><small id="projection-risk-context">از موجودی مبنا</small>
+                </div>
+                <div class="projection-stat">
+                  <span>رشد ساده</span
+                  ><strong id="projection-simple-growth">—</strong
+                  ><small id="projection-simple-final">ماندهٔ نهایی: —</small>
+                </div>
+                <div class="projection-stat">
+                  <span>رشد مرکب</span
+                  ><strong id="projection-compound-growth">—</strong
+                  ><small id="projection-compound-final">ماندهٔ نهایی: —</small>
+                </div>
+              </div>
+              <p
+                class="sr-only"
+                id="projection-live"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              ></p>
+            </div>
+
+            <div
+              class="table-scroll projection-scroll"
+              role="region"
+              aria-label="ماتریس قابل پیمایش ریسک به ریوارد و نرخ برد"
+              aria-describedby="projection-mode-note"
+            >
+              <table class="projection-table">
+                <caption>
+                  رشد حساب برای نسبت‌های ریسک به ریوارد ۱ تا ۱۵ و نرخ برد صفر تا
+                  هشتاد درصد
+                </caption>
+                <thead id="projection-head"></thead>
+                <tbody id="projection-body"></tbody>
+              </table>
+            </div>
+            <div class="projection-footer">
+              <div class="projection-legend" aria-label="راهنمای رنگ">
+                <span><i class="profit" aria-hidden="true"></i>رشد مثبت</span
+                ><span
+                  ><i class="even" aria-hidden="true"></i>نزدیک سربه‌سر</span
+                ><span><i class="loss" aria-hidden="true"></i>رشد منفی</span>
+              </div>
+              <span id="projection-mode-note"
+                >مدل مرکب، درصد ریسک را از ماندهٔ جاری هر معامله محاسبه می‌کند.
+                اعداد نظری‌اند و کارمزد، لغزش، ترتیب برد و باخت و افت سرمایه را
+                مدل نمی‌کنند.</span
+              >
+            </div>
+          </article>
+        </section>
+      </section>
+      <section
+        class="app-page"
+        id="accounts-page"
+        data-app-page="accounts"
+        hidden
+      >
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">حساب‌ها</h1>
+            <p>مقایسهٔ حساب‌ها، ماندهٔ ثبت‌شده و ریسک پیش‌فرض هر حساب</p>
+          </div>
+        </header>
+        <div id="accounts-filter-slot"></div>
+        <div class="page-actions">
+          <button class="button ghost" type="button" id="manage-accounts">
+            ویرایش حساب انتخاب‌شده
+          </button>
+        </div>
+        <details class="account-overview" id="account-overview" open>
+          <summary>
+            <span>مقایسهٔ حساب‌ها</span
+            ><span id="account-overview-count" class="optional"></span>
+          </summary>
+          <div class="account-overview-body">
+            <p class="account-overview-help" id="account-overview-help">
+              سایر فیلترهای ژورنال روی همهٔ ردیف‌ها اعمال می‌شوند. نرخ برد، R/R
+              و سود محقق‌شده از معاملات بسته محاسبه می‌شوند.
+            </p>
+            <div
+              class="table-scroll"
+              tabindex="0"
+              aria-label="مقایسهٔ قابل پیمایش حساب‌ها"
+            >
+              <table
+                class="account-overview-table"
+                aria-describedby="account-overview-help"
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">حساب</th>
+                    <th scope="col">معاملات</th>
+                    <th scope="col">Win rate</th>
+                    <th scope="col">میانگین R/R پلن</th>
+                    <th scope="col">میانگین R واقعی</th>
+                    <th scope="col">P&amp;L محقق‌شده</th>
+                    <th scope="col">ماندهٔ ثبت‌شده</th>
+                  </tr>
+                </thead>
+                <tbody id="account-overview-rows"></tbody>
+              </table>
+            </div>
+            <p class="account-overview-help">
+              نرخ برد = برد ÷ (برد + باخت)، بدون سربه‌سر. ردیف «همهٔ حساب‌ها» از
+              تک‌تک معاملات محاسبه می‌شود. واحد پول همهٔ حساب‌ها مشترک است؛
+              ماندهٔ ثبت‌شده موجودی واردشده برای محاسبهٔ ریسک است.
+            </p>
+          </div>
+        </details>
+        <section
+          id="account-manager"
+          class="account-manager inline-manager"
+          aria-labelledby="account-manager-title"
+          aria-describedby="account-manager-help"
+          dir="rtl"
+        >
+          <div class="option-manager-header">
+            <div>
+              <span class="eyebrow">مدیریت ژورنال</span>
+              <h2 id="account-manager-title">حساب‌های معاملاتی</h2>
+            </div>
+            <button
+              id="close-account-manager"
+              class="button ghost"
+              type="button"
+              aria-label="فرم حساب جدید"
+              hidden
+            >
+              حساب جدید
+            </button>
+          </div>
+          <p id="account-manager-help" class="option-help">
+            برای هر حساب نام، توضیح، مانده و ریسک پیش‌فرض جدا ثبت کن. حساب
+            بایگانی‌شده و سابقهٔ معاملاتش در تحلیل کلی حفظ می‌شوند. همهٔ حساب‌ها
+            از واحد پول ژورنال استفاده می‌کنند.
+          </p>
+          <div class="account-editor-picker">
+            <div class="field">
+              <label for="account-editor-select">حساب برای ویرایش</label
+              ><select id="account-editor-select" data-native-select>
+                <option value="">ساخت حساب جدید</option>
+              </select>
+            </div>
+            <button id="account-new" class="button ghost" type="button">
+              + حساب جدید
+            </button>
+          </div>
+          <form id="account-editor-form" novalidate>
+            <div class="field-grid two">
+              <div class="field full">
+                <label for="account-editor-name">نام حساب</label
+                ><input
+                  id="account-editor-name"
+                  maxlength="80"
+                  dir="auto"
+                  autocomplete="off"
+                  placeholder="مثلاً حساب شخصی یا پراپ"
+                  required
+                />
+              </div>
+              <div class="field full">
+                <label for="account-editor-description"
+                  >توضیح حساب <span class="optional">اختیاری</span></label
+                ><textarea
+                  id="account-editor-description"
+                  maxlength="1000"
+                  rows="2"
+                  dir="auto"
+                  placeholder="کاربرد حساب یا قوانین مخصوص آن…"
+                ></textarea>
+              </div>
+              <div class="field">
+                <label for="account-editor-balance"
+                  >ماندهٔ حساب
+                  <span
+                    id="account-editor-currency-label"
+                    class="optional"
+                  ></span></label
+                ><input
+                  id="account-editor-balance"
+                  class="numeric"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  data-localized-number
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="account-editor-risk-mode">روش ریسک پیش‌فرض</label
+                ><select id="account-editor-risk-mode" data-native-select>
+                  <option value="percent">درصدی از مانده</option>
+                  <option value="fixed">مبلغ ثابت</option>
+                </select>
+              </div>
+              <div class="field" id="account-editor-percent-field">
+                <label for="account-editor-risk-percent"
+                  >ریسک هر معامله (%)</label
+                ><input
+                  id="account-editor-risk-percent"
+                  class="numeric"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  data-localized-number
+                />
+              </div>
+              <div class="field" id="account-editor-fixed-field" hidden>
+                <label for="account-editor-fixed-risk">مبلغ ثابت ریسک</label
+                ><input
+                  id="account-editor-fixed-risk"
+                  class="numeric"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  data-localized-number
+                />
+              </div>
+            </div>
+            <p
+              id="account-editor-error"
+              class="account-editor-error"
+              role="alert"
+              hidden
+            ></p>
+            <p id="account-editor-status" class="option-help"></p>
+            <div class="account-editor-actions">
+              <button
+                id="account-editor-save"
+                class="button primary"
+                type="submit"
+              >
+                افزودن حساب</button
+              ><button
+                id="account-editor-archive"
+                class="button ghost"
+                type="button"
+                hidden
+              >
+                بایگانی حساب
+              </button>
+            </div>
+          </form>
+        </section>
+      </section>
+      <section
+        class="app-page"
+        id="catalogs-page"
+        data-app-page="catalogs"
+        hidden
+      >
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">ستاپ‌ها و فاکتورها</h1>
+            <p>فهرست شخصی گزینه‌ها و توضیحات آن‌ها</p>
+          </div>
+        </header>
+        <a id="catalog-return" class="button ghost" href="#trade-new" hidden
+          >بازگشت به معامله
+          <span
+            class="heroicon-host"
+            data-heroicon="arrow-left"
+            aria-hidden="true"
+          ></span
+        ></a>
+        <section
+          id="option-manager"
+          class="option-manager inline-manager"
+          aria-labelledby="option-manager-title"
+          aria-describedby="option-manager-help"
+          dir="rtl"
+        >
+          <div class="option-manager-header">
+            <div>
+              <span class="eyebrow">شخصی‌سازی ژورنال</span>
+              <h2 id="option-manager-title">مدیریت گزینه‌های پلن</h2>
+            </div>
+            <button
+              type="button"
+              class="button ghost"
+              id="close-option-manager"
+              aria-label="بستن مدیریت گزینه‌ها"
+              hidden
+            >
+              <span
+                class="heroicon-host"
+                data-heroicon="close"
+                aria-hidden="true"
+              ></span>
+              بستن
+            </button>
+          </div>
+          <p id="option-manager-help" class="option-help">
+            نام و توضیح گزینه‌ها را ویرایش کن یا گزینهٔ تازه بساز. توضیح‌ها
+            هنگام انتخاب هم دیده می‌شوند. تغییرها با افزودن یا ذخیرهٔ هر گزینه
+            در همین مرورگر ثبت می‌شوند و در پشتیبان JSON هم می‌آیند. برای
+            تأییدیه‌ها می‌توان نوع ساده، با جزئیات، دارای جهت یا دارای جهت و
+            جزئیات ساخت.
+          </p>
+          <div class="option-recovery-tools">
+            <button
+              type="button"
+              class="button ghost"
+              id="recover-option-catalog"
+            >
+              بازیابی ستاپ‌ها و فاکتورها از JSON</button
+            ><input
+              class="sr-only"
+              id="catalog-recovery-file"
+              type="file"
+              accept="application/json,.json"
+              tabindex="-1"
+              aria-hidden="true"
+            />
+            <p class="option-help">
+              گزینه‌های پشتیبان قبلی به همین ژورنال اضافه می‌شوند؛ معاملات و
+              تنظیمات فعلی حفظ می‌شوند. پیش از تغییر، پشتیبان گزینه‌های فعلی
+              دانلود می‌شود. گزینه‌های بایگانی‌شده با همان وضعیت برمی‌گردند.
+            </p>
+          </div>
+          <div
+            id="option-group-tabs"
+            class="option-group-tabs"
+            role="group"
+            aria-label="دستهٔ گزینه‌ها"
+          ></div>
+          <div class="option-section-head">
+            <h3 id="option-group-title"></h3>
+            <span id="option-count" class="optional"></span>
+          </div>
+          <div class="field catalog-search">
+            <label for="option-search">جست‌وجو در این دسته</label
+            ><input
+              id="option-search"
+              type="search"
+              autocomplete="off"
+              placeholder="نام یا توضیح گزینه…"
+            />
+          </div>
+          <form id="option-add-form" class="option-add-form">
+            <label class="sr-only" for="option-new-name">نام گزینهٔ جدید</label>
+            <input
+              id="option-new-name"
+              maxlength="50"
+              placeholder="نام گزینهٔ جدید…"
+              autocomplete="off"
+              required
+            />
+            <button type="submit" class="button primary">افزودن گزینه</button>
+            <div class="option-add-type" id="option-new-type-field">
+              <label for="option-new-type">نوع تأییدیه</label>
+              <select
+                id="option-new-type"
+                aria-describedby="option-new-type-help"
+              >
+                <option value="simple">تأییدیهٔ ساده</option>
+                <option value="details">با جزئیات</option>
+                <option value="direction">دارای جهت</option>
+                <option value="direction_details">دارای جهت و جزئیات</option>
+              </select>
+              <p class="option-help" id="option-new-type-help">
+                ساده: فقط انتخاب تأییدیه. با جزئیات: یادداشت مخصوص هر پوزیشن.
+                دارای جهت: صعودی، نزولی، خنثی یا ثبت‌نشده. دارای جهت و جزئیات:
+                هر دو را برای همان پوزیشن ثبت کن.
+              </p>
+            </div>
+            <div class="option-add-description">
+              <label for="option-new-description"
+                >توضیح گزینه
+                <span class="optional">اختیاری، تا ۱۰۰۰ نویسه</span></label
+              ><textarea
+                id="option-new-description"
+                maxlength="1000"
+                rows="2"
+                dir="auto"
+                placeholder="تعریف ستاپ، شرایط استفاده یا نکتهٔ مربوط به این گزینه…"
+              ></textarea>
+            </div>
+          </form>
+          <p class="option-help option-removal-help">
+            «حذف از فهرست» سابقهٔ معاملات را نگه می‌دارد. «حذف دائمی» گزینه را
+            از تمام معاملات هم پاک می‌کند. ویرایش نام در سابقه و تحلیل‌ها نیز
+            اعمال می‌شود.
+          </p>
+          <label class="option-archived-toggle"
+            ><input type="checkbox" id="option-show-archived" /> نمایش گزینه‌های
+            حذف‌شده از فهرست</label
+          >
+          <p
+            id="option-manager-status"
+            class="option-manager-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div id="option-manager-list" class="option-manager-list"></div>
+          <p class="option-help option-manager-footnote">
+            گزینهٔ پایهٔ هر دسته برای معاملات بدون انتخاب حفظ می‌شود. وضعیت
+            معامله، جهت و امتیازهای ۱ تا ۵ ساختار ثابتی دارند.
+          </p>
+        </section>
+      </section>
+      <section
+        class="app-page"
+        id="settings-page"
+        data-app-page="settings"
+        hidden
+      >
+        <header class="page-heading">
+          <div>
+            <h1 tabindex="-1">تنظیمات</h1>
+            <p>ترجیحات عمومی و مدیریت نسخهٔ پشتیبان</p>
+          </div>
+        </header>
+        <nav class="analytics-tabs" aria-label="بخش‌های تنظیمات">
+          <a href="#settings" data-settings-tab="general">عمومی</a
+          ><a href="#settings/data" data-settings-tab="data">داده و پشتیبان</a>
+        </nav>
+        <section id="settings-general" class="card">
+          <div class="card-header">
+            <h2>ترجیحات عمومی</h2>
+          </div>
+          <div class="card-body settings-grid">
+            <div class="field">
+              <label for="currency">واحد حساب</label
+              ><input
+                class="ltr"
+                id="currency"
+                name="currency"
+                type="text"
+                value="USD"
+                maxlength="8"
+                autocomplete="off"
+                spellcheck="false"
+                aria-describedby="currency-help"
+              /><span id="currency-help" class="sr-only"
+                >مانند USD، EUR یا USDT</span
+              >
+            </div>
+            <div class="field weekend-field">
+              <span class="field-label" id="weekend-days-label"
+                >روزهای آخرهفته</span
+              >
+              <div
+                class="weekend-days"
+                id="weekend-days"
+                role="group"
+                aria-labelledby="weekend-days-label"
+              >
+                <button
+                  class="weekend-day"
+                  type="button"
+                  data-weekday="6"
+                  aria-pressed="false"
+                >
+                  شنبه</button
+                ><button
+                  class="weekend-day"
+                  type="button"
+                  data-weekday="0"
+                  aria-pressed="false"
+                >
+                  یکشنبه</button
+                ><button
+                  class="weekend-day"
+                  type="button"
+                  data-weekday="1"
+                  aria-pressed="false"
+                >
+                  دوشنبه</button
+                ><button
+                  class="weekend-day"
+                  type="button"
+                  data-weekday="2"
+                  aria-pressed="false"
+                >
+                  سه‌شنبه</button
+                ><button
+                  class="weekend-day"
+                  type="button"
+                  data-weekday="3"
+                  aria-pressed="false"
+                >
+                  چهارشنبه</button
+                ><button
+                  class="weekend-day"
+                  type="button"
+                  data-weekday="4"
+                  aria-pressed="true"
+                >
+                  پنجشنبه</button
+                ><button
+                  class="weekend-day"
+                  type="button"
+                  data-weekday="5"
+                  aria-pressed="true"
+                >
+                  جمعه
+                </button>
+              </div>
+              <small class="weekend-summary" id="weekend-summary"
+                >آخرهفته: پنجشنبه و جمعه</small
+              >
+            </div>
+            <p class="option-help field full">
+              واحد پول فقط برچسب نمایش است و مقادیر تاریخی را تبدیل نمی‌کند.
+              مانده و ریسک پیش‌فرض هر حساب در صفحهٔ حساب‌ها تنظیم می‌شوند.
+            </p>
+            <div class="field full confirmation-settings-access">
+              <h3>ستاپ‌ها و تأییدیه‌ها</h3>
+              <p>
+                تأییدیهٔ ساده، با جزئیات مخصوص هر پوزیشن، دارای جهت یا دارای جهت
+                و جزئیات بساز و مدیریت کن.
+              </p>
+              <div class="settings-catalog-actions">
+                <button
+                  class="button ghost"
+                  id="settings-confirmation-catalogs"
+                  type="button"
+                >
+                  مدیریت تأییدیه‌ها</button
+                ><button
+                  class="button ghost"
+                  id="settings-strategy-catalogs"
+                  type="button"
+                >
+                  مدیریت ستاپ‌ها و فاکتورها
+                </button>
+              </div>
+            </div>
+            <div class="field full">
+              <button
+                id="save-general-settings"
+                class="button primary"
+                type="button"
+              >
+                ذخیرهٔ تنظیمات
+              </button>
+              <p
+                id="general-settings-message"
+                role="status"
+                aria-live="polite"
+              ></p>
+            </div>
+          </div>
+        </section>
+        <section id="settings-data" hidden>
+          <aside class="backup-card" aria-labelledby="backup-title">
+            <div>
+              <h3 id="backup-title">نسخهٔ پشتیبان قابل‌حمل</h3>
+              <p>
+                ذخیرهٔ مرورگر دائمی نیست. JSON نسخهٔ کامل ژورنال همراه تصاویر و
+                CSV فایل داده‌های معامله برای اکسل است؛ تصاویر فقط در JSON
+                پشتیبان‌گیری می‌شوند. ورود CSV فقط ردیف‌های معتبر و غیرتکراری را
+                اضافه می‌کند.
+              </p>
+              <div class="import-guide" data-accordion>
+                <button
+                  class="import-guide-trigger"
+                  id="accordion-csv-trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="accordion-csv-panel"
+                >
+                  ستون‌های فایل CSV
+                  <span
+                    class="heroicon-host accordion-icon"
+                    data-heroicon="chevron-down"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+                <div
+                  class="import-guide-panel"
+                  id="accordion-csv-panel"
+                  role="region"
+                  aria-labelledby="accordion-csv-trigger"
+                  hidden
+                >
+                  <p id="csv-columns"></p>
+                </div>
+              </div>
+            </div>
+            <div class="backup-actions">
+              <button class="button ghost" id="import-json" type="button">
+                <span
+                  class="heroicon-host"
+                  data-heroicon="upload"
+                  aria-hidden="true"
+                ></span>
+                ورود JSON</button
+              ><button class="button ghost" id="import-csv" type="button">
+                <span
+                  class="heroicon-host"
+                  data-heroicon="upload"
+                  aria-hidden="true"
+                ></span>
+                ورود CSV</button
+              ><button class="button" id="export-csv" type="button">
+                <span
+                  class="heroicon-host"
+                  data-heroicon="download"
+                  aria-hidden="true"
+                ></span>
+                خروجی CSV</button
+              ><button class="button primary" id="export-json" type="button">
+                <span
+                  class="heroicon-host"
+                  data-heroicon="download"
+                  aria-hidden="true"
+                ></span>
+                خروجی JSON
+              </button>
+            </div>
+          </aside>
+          <section
+            class="demo-banner compact-demo-settings"
+            id="demo-banner"
+            aria-labelledby="demo-title"
+            hidden
+          >
+            <div>
+              <h2 id="demo-title">محیط آزمایشی</h2>
+              <p>
+                این ژورنال با ۹۰ معاملهٔ بسته، ۶ معاملهٔ باز و ۴ پیش‌نویس شروع
+                می‌شود. قیمت‌ها و نتایج کاملاً ساختگی‌اند و عملکرد واقعی یا قیمت
+                بازار نیستند. تغییرات این محیط جدا از ژورنال اصلی ذخیره می‌شوند.
+              </p>
+            </div>
+            <div class="demo-actions">
+              <button
+                class="button ghost small"
+                id="export-demo-fixture"
+                type="button"
+              >
+                <span
+                  class="heroicon-host"
+                  data-heroicon="download"
+                  aria-hidden="true"
+                ></span>
+                دانلود دادهٔ پایه</button
+              ><button class="button ghost small" id="reset-demo" type="button">
+                <span
+                  class="heroicon-host"
+                  data-heroicon="reset"
+                  aria-hidden="true"
+                ></span>
+                بازنشانی ۱۰۰ پوزیشن</button
+              ><a class="button primary small" id="exit-demo" href="?demo=0"
+                >ژورنال اصلی</a
+              >
+            </div>
+          </section>
+          <div class="card card-body">
+            <h2>محیط ژورنال</h2>
+            <p class="option-help">
+              داده‌های آزمایشی و ژورنال اصلی جدا ذخیره می‌شوند.
+            </p>
+            <a class="button ghost" id="toggle-demo-top" href="?demo=1"
+              >آزمایش ۱۰۰ پوزیشن</a
+            >
+          </div>
+          <div hidden>
+            <button id="manage-options-top" type="button">
+              مدیریت گزینه‌ها</button
+            ><button id="import-json-top" type="button">ورود JSON</button
+            ><button id="export-json-top" type="button">خروجی JSON</button>
+          </div>
+        </section>
+      </section>
+      <section
+        class="app-page position-detail-page"
+        id="trade-detail-page"
+        data-app-page="trade"
+        aria-labelledby="trade-detail-title"
+        hidden
+      >
+        <header class="position-detail-header">
+          <div>
+            <a class="position-back-link icon-link" href="#trades"
+              ><span
+                class="heroicon-host"
+                data-heroicon="arrow-right"
+                aria-hidden="true"
+              ></span>
+              بازگشت به معاملات</a
+            >
+            <p class="position-detail-eyebrow">پروندهٔ یک پوزیشن</p>
+            <h1 id="trade-detail-title" tabindex="-1">جزئیات پوزیشن</h1>
+            <p id="trade-detail-subtitle" class="position-detail-subtitle"></p>
+            <div id="trade-detail-badges" class="position-detail-badges"></div>
+          </div>
+          <div class="position-detail-actions">
+            <button class="button ghost" id="trade-detail-edit" type="button">
+              <span
+                class="heroicon-host"
+                data-heroicon="edit"
+                aria-hidden="true"
+              ></span>
+              ویرایش پوزیشن
+            </button>
+            <button
+              class="button primary"
+              id="trade-detail-close"
+              type="button"
+            >
+              ثبت نتیجه / بستن
+            </button>
+          </div>
+        </header>
+        <div id="trade-detail-content"></div>
+      </section>
+    </main>
+    <footer class="app-footer">ژورنال اِج · محلی و آفلاین</footer>
+    <input
+      class="sr-only"
+      id="json-file"
+      type="file"
+      accept="application/json,.json"
+      tabindex="-1"
+      aria-hidden="true"
+    /><input
+      class="sr-only"
+      id="csv-file"
+      type="file"
+      accept="text/csv,.csv"
+      tabindex="-1"
+      aria-hidden="true"
+    />
+    <div
+      class="toast-region"
+      id="toast-region"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+    <dialog
+      id="trade-image-viewer"
+      class="trade-image-viewer"
+      aria-labelledby="trade-image-viewer-title"
+      dir="rtl"
+    >
+      <div class="trade-image-viewer-head">
+        <h2 id="trade-image-viewer-title">تصویر معامله</h2>
+        <button
+          type="button"
+          class="button ghost"
+          id="close-trade-image-viewer"
+          aria-label="بستن تصویر معامله"
+        >
+          <span
+            class="heroicon-host"
+            data-heroicon="close"
+            aria-hidden="true"
+          ></span>
+          بستن
+        </button>
+      </div>
+      <figure>
+        <img id="trade-image-viewer-image" alt="" hidden />
+        <p
+          id="trade-image-viewer-status"
+          class="trade-image-viewer-status"
+          role="status"
+        ></p>
+      </figure>
+      <div class="trade-image-viewer-foot">
+        <button type="button" class="button ghost" id="trade-image-previous">
+          <span
+            class="heroicon-host"
+            data-heroicon="chevron-right"
+            aria-hidden="true"
+          ></span>
+          تصویر قبلی</button
+        ><span
+          class="trade-image-viewer-count"
+          id="trade-image-viewer-count"
+        ></span
+        ><button type="button" class="button ghost" id="trade-image-next">
+          <span
+            class="heroicon-host"
+            data-heroicon="chevron-left"
+            aria-hidden="true"
+          ></span>
+          تصویر بعدی</button
+        ><a
+          id="trade-image-download"
+          class="button ghost trade-image-download"
+          aria-disabled="true"
+          download
+          ><span
+            class="heroicon-host"
+            data-heroicon="download"
+            aria-hidden="true"
+          ></span>
+          دانلود تصویر</a
+        >
+      </div>
+    </dialog>
+
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>

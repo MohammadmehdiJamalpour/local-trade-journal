@@ -1,0 +1,59 @@
+{
+  "name": "edge-journal",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build && node scripts/release.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "lint": "eslint src tests scripts --max-warnings 0",
+    "format:check": "prettier --check src tests scripts",
+    "verify:artifact": "node scripts/verify-artifact.mjs",
+    "check": "npm run typecheck && npm run lint && npm test && npm run build && npm run verify:artifact",
+    "benchmark": "playwright test tests/browser/performance.spec.ts --project=chromium",
+    "notices": "node scripts/notices.mjs",
+    "verify:reproducible": "node scripts/reproducible.mjs",
+    "secrets:check": "node scripts/secrets.mjs",
+    "dependencies:check": "node scripts/dependencies.mjs"
+  },
+  "dependencies": {
+    "@headlessui/react": "2.2.10",
+    "@heroicons/react": "2.2.0",
+    "decimal.js": "10.6.0",
+    "idb": "8.0.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@babel/generator": "7.28.5",
+    "@babel/parser": "7.28.5",
+    "@babel/traverse": "7.28.5",
+    "@babel/types": "7.28.5",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.1",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "@vitest/coverage-v8": "5.0.4",
+    "eslint": "10.12.0",
+    "fake-indexeddb": "6.2.5",
+    "fast-check": "4.10.2",
+    "globals": "17.13.0",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
+    "vite": "8.3.4",
+    "vite-plugin-singlefile": "2.3.3",
+    "vitest": "5.0.4"
+  }
+}

@@ -1,0 +1,50 @@
+name: Release candidate validation
+on:
+  workflow_dispatch:
+    inputs:
+      workstation:
+        description: Also benchmark on the configured edge-journal-benchmark Windows runner
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    env:
+      EDGE_JOURNAL_SYSTEM_BROWSERS: "1"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install chromium firefox webkit
+      - run: npx playwright test --grep-invert "benchmark|image stress"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-browser-results
+          path: output/
+  workstation:
+    if: inputs.workstation
+    runs-on: [self-hosted, Windows, edge-journal-benchmark]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run build
+      - name: Benchmark startup, reports and image navigation memory
+        run: npx playwright test tests/browser/performance.spec.ts tests/browser/images-stress.spec.ts --project=chrome --workers=1
+        env:
+          EDGE_JOURNAL_SYSTEM_BROWSERS: "1"
+      - run: node scripts/compare-performance.mjs docs/benchmarks/windows-chrome-v2.json output/performance/report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: workstation-performance
+          path: output/performance/

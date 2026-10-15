@@ -1,4 +1,6 @@
-# Factor filters and peak P&L
+# Edge Journal user guide
+
+For version-13 storage, currencies, explicit instruments/fills, encrypted backups and audited corrections, read [calculation conventions](calculations.md), [backup and recovery](recovery.md), and [release validation](release-validation.md). Browser storage is now transactional IndexedDB; localStorage originals remain until explicit cleanup. Wait for the persistent **ذخیره شد** status. Drafts autosave after 750 ms inactivity and offer restoration after reload.
 
 Open `index.html` and select **تحلیل عملکرد** in the sidebar (or open **فهرست** on mobile). Use the **فاکتورها**, **زمان**, **رفتار**, **R لمس‌شده**, and **جدول مقایسه** tabs for focused reports.
 
@@ -38,8 +40,7 @@ Excursion averages use only recorded values and show the number of observations.
 
 The 100-position synthetic dataset now includes peak P&L examples. In that dataset, volume-tagged trades have 22 closed positions, a 55% win rate and 2.25 average planned R/R. These are software-test results, not market evidence.
 
-Verified: 36 normalization cases, confirmation combinations, every added factor filter, exact symbol group filtering, excursion editing, persistence, JSON/CSV round trips, v4 migration and mobile layout.
-
+Current verification commands and measured results are recorded in [release validation](release-validation.md); the historical feature checks do not certify every new release.
 
 ## Recover an earlier custom list
 
@@ -57,12 +58,11 @@ Use **ویرایش پوزیشن** to edit the position, **ثبت نتیجه / ب
 
 Open **حساب‌ها** in the sidebar. Use the inline account selector/editor to add or rename an account, describe it, and set its balance and risk defaults. Existing positions are preserved in **حساب اصلی**. Archive keeps an account's history in the overall reports and allows reviewing or editing its existing positions; restore the account before adding new positions to it.
 
-Choose **همهٔ حساب‌ها** for the combined trade list, win rate, average planned R/R, realized R, P&L and factor analyses. Choose an account for the same information restricted to that account. The comparison table shows all accounts side by side using the current date and factor filters. Combined win rate uses total wins divided by total wins plus losses; it never averages account percentages. Planned R/R and realized R are averages across eligible closed positions, with open/planned counts shown separately.
+Choose **همهٔ حساب‌ها** for the combined trade list, win rate, average planned R/R, realized R and factor analyses. Monetary results are labeled and grouped by currency; different currencies are not one comparable cash total. Choose an account for the same information restricted to that account. The comparison table shows all accounts side by side using the current date and factor filters. Combined win rate uses total wins divided by total wins plus losses; it never averages account percentages. Planned R/R and realized R are averages across eligible closed positions, with open/planned counts shown separately.
 
-Select **حساب این پوزیشن** in the trade form to assign or move a position. The account view filter and trade assignment are separate; switching the view preserves the draft. Balance and risk defaults are edited on **حساب‌ها**; the trade editor shows the budget of its assigned account. Changing accounts or account balances preserves an executed position's saved initial risk and financial results. All accounts share the journal's currency and weekend settings; the scenario matrix remains an independent hypothetical calculator.
+Select **حساب این پوزیشن** in the trade form to assign a position. The account view filter and trade assignment are separate; switching the view preserves the draft. Balance, currency and risk defaults are edited on **حساب‌ها**; the trade editor shows the budget of its assigned account. Changing account balances does not rewrite an executed position's initial risk. Accounts have their own currencies, while weekend settings remain journal preferences. An account with trading history cannot simply be relabeled with another currency. Moving an executed trade or changing its original economic inputs requires the correction workflow. The scenario matrix remains an independent hypothetical calculator.
 
-Full JSON and CSV exports include every account's positions, regardless of the current view. JSON also preserves account settings, descriptions, archived status and images. CSV includes account ID and name; older CSV rows without account columns use the active account selected in the form, or an available active account. Version 7 and earlier journals migrate automatically, with an exact pre-account storage copy retained before migration. A portable pre-change backup is also saved as `journal-before-accounts.json`.
-
+Full JSON and CSV exports include every account's positions, regardless of the current view. JSON also preserves account settings, descriptions, archived status, images and correction history. CSV includes account ID/name plus explicit economic fields; older CSV rows without account columns use the active account selected in the form, or an available active account. Versions 1–12 pass through a migration preview before acceptance. Download the offered full backup and retain the exact original. Migration keeps old source keys and a pinned deduplicated snapshot; it does not automatically create repeated localStorage copies. See [recovery](recovery.md).
 
 ## Minimal interface and separate pages
 
@@ -71,26 +71,42 @@ Full JSON and CSV exports include every account's positions, regardless of the c
 - **معاملهٔ جدید** opens the dedicated grouped editor and resumes an existing draft. Select the position's account in the page header; its risk context appears beside the live calculator. Essential prices and quantity stay visible; optional setup, behavior, excursion and image sections expand as needed. Successful saves open Position Detail.
 - **تحلیل عملکرد** contains measured reports in separate tabs. **شبیه‌ساز R/R** is the independent hypothetical matrix.
 - **تنظیمات → عمومی → مدیریت ستاپ‌ها و فاکتورها / مدیریت تأییدیه‌ها** manages searchable catalogs and descriptions. The position editor selects existing options; it does not create or edit catalog definitions. Returning to the editor retains the draft.
-- **تنظیمات → عمومی** edits currency/weekend preferences. Click **ذخیرهٔ تنظیمات** to commit them.
-- **تنظیمات → داده و پشتیبان** contains full JSON backup/restore, CSV import/export, and demo controls. Exports include all positions regardless of report filters or pagination.
+- **تنظیمات → عمومی** edits journal display/default currency and weekend preferences. Change an account's currency in **حساب‌ها** before adding its trading history. Click **ذخیرهٔ تنظیمات** to commit preferences.
+- **تنظیمات → داده و پشتیبان** contains full JSON/encrypted backup and restore, CSV import/export, storage/recovery management, and demo controls. Exports include all positions regardless of report filters or pagination.
 
 The account reporting selector appears on Dashboard, Trades, Analytics and Charts. It does not change the account assigned to an unsaved position. The same filters apply across reporting pages; account comparison ignores account scope while retaining the other filters.
 
-Internal page changes retain the trade draft, ordered selections and attachment processing. Replacing or clearing it asks for confirmation. Reload/external navigation warns about unsaved trade changes; drafts are session-only. Browser Back/Forward and legacy journal links continue to work.
+Internal page changes retain the trade draft, ordered selections and attachment processing. Replacing or clearing it asks for confirmation. Reload/external navigation warns about unsaved trade changes. Drafts autosave to IndexedDB after 750 ms of inactivity and offer restoration after reload; immediate closure can precede that save. Drafts are not included in portable backups. Browser Back/Forward and legacy journal links continue to work.
 
 ## Win-rate charts
 
 Open **نمودارها** in the sidebar for charts by entry hour, weekday, day of month and trade factors. All charts use the current account and report filters, including every matching position regardless of the Trades page number. The previous detailed reports remain under **تحلیل عملکرد**; **جدول تحلیل کامل** opens their comparison table directly.
 
-Charts are stacked in one column at every screen width. Factor charts initially show eight frequent options; use **نمایش همهٔ … گزینه** to reveal the remainder and **نمایش ۸ گزینهٔ اول** to collapse them. **جزئیات کامل** always includes every group. Factor lists follow the main page scroll, and selecting a bar shows its statistics without a large reserved blank area.
+Charts are stacked in one column. The **فاکتور مقایسه** selector chooses the factor chart; its rows display the current groups and sample sizes. Expand **جدول کامل و قابل خواندن** below a chart for its detailed statistics. Long tables scroll within their labeled region.
 
-The month chart defaults to **شمسی (جلالی)**. Choose **میلادی** for Gregorian days. These charts group the entry date/time you recorded; they do not convert timezones. Unknown entry times appear separately from midnight.
+The month chart defaults to `jalali` (شمسی). Choose `gregorian` for Gregorian days. These charts group the entry date/time you recorded; they do not convert timezones. Unknown entry times appear separately from midnight.
 
-Select a bar or factor row to see its sample, wins/losses/breakevens, planned R/R, realized R and net result. Expand **جزئیات کامل** below any card for all statistics, including MFE, MAE and individual Max R observations. Use **فاکتور بیشتر** to chart markets, direction, mistakes, quality, confidence, Max R, symbols or accounts.
+The detailed table shows sample counts, wins/losses/breakevens, planned R/R, realized R, net results, MFE, MAE and touched-R statistics. Monetary totals are separated by currency, and pooled cash excursion averages are suppressed for mixed-currency samples. Choose another comparison factor to chart markets, direction, mistakes, quality, confidence, Max R, symbols or accounts.
 
 Win rate is wins divided by wins plus losses. Breakevens, open and planned positions are excluded from that denominator. **—** means no decided outcomes; **۰٪** means losses with no wins. Multi-choice factor groups can overlap, so their counts need not sum to the journal total. Read percentages alongside sample sizes; a result filter can itself produce 0% or 100%.
 
-Dropdowns, searchable multiple-choice inputs and accordion sections now use bundled Headless UI controls; icons use Heroicons. Arrow keys navigate choices, Enter selects and Escape closes. They work offline and retain drafts and ordered choices when moving between pages.
+Searchable dropdowns and multiple-choice inputs use bundled Headless UI controls; icons use Heroicons. Arrow keys navigate choices, Enter selects and Escape closes. Expandable sections use maintained disclosure controls or native details. They work offline and retain drafts and ordered choices when moving between pages.
+
+## Record units, lots, contracts and price fills
+
+Select the account first, enter the symbol and original entry/stop/target/quantity, then expand **بازار، ارز، خروج با قیمت و اصلاحات**. Specify **ارز قیمت / سود قرارداد**, **واحد حجم**, multiplier and any price/quantity increments. A symbol does not supply these values automatically. Use multiplier 1 for a linear unit/share when appropriate; forex lots and futures require the actual contract multiplier. Enable zero/negative prices only for a supported linear instrument that permits them.
+
+Record the quote-to-account conversion for initial risk, the final exit conversion and the fee currency/conversion explicitly. A rate is account-currency units per one source-currency unit. Leave 1 only when it reflects the recorded economics. There are no live prices or conversions. The instrument is snapshotted on execution; later unrelated catalog edits cannot rewrite it.
+
+Under **خروج‌های اجراشده با قیمت و حجم**, choose **افزودن خروج با قیمت**. Each row records executed price, quantity, realization conversion, additional fill fee/currency/conversion and optional Gregorian date/time. The total exited quantity cannot exceed the original position. Keep an incompletely exited position open; when closing, the ordinary final exit applies only to the remaining quantity. A fully exited closed position needs no extra final price. Position-level fees are deducted once and fill fees are additional. Use either price fills or legacy R exits for a position's exits; recording both is rejected.
+
+For an R-based price shortcut, enter **R خروج** and **حجم این خروج (واحد حجم قرارداد)** under **میان‌بر خروج در R**, set the actual quote-to-account exit conversion above, and choose **پیش‌نمایش قیمت خروج در R**. Review the derived price/quantity/conversion and confirm to add a normal fill to the draft. Review its actual execution price, date/time and fees before saving. The shortcut uses saved initial account risk; it does not convert existing legacy R rows or permit both exit systems at once. See [calculation conventions](calculations.md) for partial-R semantics.
+
+## Correct an executed trade
+
+Current stop/target management preserves saved initial risk. To correct an original execution or closed economic result, edit the affected fields and expand **اصلاح اجرای اصلی با ثبت سابقه**. Enter a specific **دلیل اصلاح**. Supply the actual original stop/target when correcting the initial plan; unknown historic values must not be guessed from a later trailing stop.
+
+Saving shows the economic consequences before committing. Review P&L, R and outcome changes, then accept or cancel. Accepted corrections retain immutable before/after values, time and reason. **سابقهٔ اصلاحات** displays the trade's events; full JSON/encrypted backups preserve them. Adding a new fill on an open position is management, while changing/removing existing executed fills requires a reason.
 
 ## Record partial profits at different R levels
 
@@ -112,11 +128,11 @@ These fields describe your view of the market at each timeframe. They are indepe
 
 Open **تنظیمات → عمومی → مدیریت تأییدیه‌ها**. This takes you to the confirmations category in **ستاپ‌ها و فاکتورها**. When adding a confirmation, enter its name, optional catalog description and **نوع تأییدیه**:
 
-| Choice | What appears when selected on a position |
-|---|---|
-| **ساده** | A normal selected confirmation |
-| **با جزئیات** | An optional note for this confirmation on this position |
-| **جهت‌دار** | A bullish, bearish, neutral or not-recorded direction |
+| Choice                 | What appears when selected on a position                   |
+| ---------------------- | ---------------------------------------------------------- |
+| **ساده**               | A normal selected confirmation                             |
+| **با جزئیات**          | An optional note for this confirmation on this position    |
+| **جهت‌دار**            | A bullish, bearish, neutral or not-recorded direction      |
 | **دارای جهت و جزئیات** | Both a direction and an optional note on the same position |
 
 To create the example `MWC`, enter `MWC` as the name, optionally describe it as `Medium Wave Cycle`, choose **جهت‌دار**, and add it. Then open a position, select MWC under its confirmations, and choose the direction for that position. Its direction can differ from the trade direction and from each timeframe's direction.
@@ -131,4 +147,4 @@ Change an existing definition's type in Settings and click **ذخیره**. Previ
 
 Navigating to Accounts or Catalogs and returning keeps the current draft, selected confirmation order, notes and directions. Deselecting and reselecting a confirmation within that draft restores its entered value. Archiving a definition keeps its history. Reloads still warn about unsaved trade changes; draft inputs are not portable backups until the position is saved.
 
-The existing confirmation filters and charts continue to match selected confirmation names. These new context fields do not change trade calculations, partial exits or simulator results. Full JSON backups include definitions, types, position values and images. CSV exports preserve the saved timeframe and confirmation values in their own JSON-encoded columns. The current format is **version 11**; older journals migrate without changing existing observations, retaining an exact browser-local copy before migration.
+Confirmation filters/charts match selected identities and retain their context snapshots. Full JSON includes definitions, values, images and correction history. CSV retains context plus instrument, frozen-plan, fill and conversion columns. The current document is **version 13**; older journals show a backup/migration preview and retain exact originals. Missing historical original stop/target remain unknown. Old apps cannot read the new format.

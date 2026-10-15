@@ -1,0 +1,42 @@
+name: Quality
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npx prettier --check README.md CONTRIBUTING.md docs .github
+      - run: npm run test:coverage
+      - run: npm run secrets:check
+      - run: npm run dependencies:check
+      - run: npm run verify:reproducible
+      - run: npm run verify:artifact
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npx playwright test --grep-invert "benchmark|image stress"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation
+          path: |
+            coverage/
+            output/
+            dist/
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          allow-ghsas: GHSA-vfj7-8cjw-p6xm

@@ -1,5 +1,8 @@
 # Local tooling and dependencies
 node_modules/
+dist/
+coverage/
+output/
 .playwright-cli/
 playwright-report/
 test-results/
